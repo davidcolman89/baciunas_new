@@ -4,6 +4,10 @@
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
 	"type": "project",
+	"require-dev": {
+	  "barryvdh/laravel-debugbar": "1.*",
+	  "way/generators": "~2.0"
+	},
 	"require": {
 		"laravel/framework": "4.2.*"
 	},
