@@ -2,10 +2,10 @@
 
 Route::get('/', 'AuthController@showLogin');
 Route::get('login', 'AuthController@showLogin');
-// Validamos los datos de inicio de sesión.
+
 Route::post('login', 'AuthController@postLogin');
 
-//Route::group(array('before' => 'auth'), function () {
+Route::group(array('before' => 'auth'), function () {
 
 	Route::get('logout', array('as'=>'logout','uses'=>'AuthController@logOut'));
 
@@ -21,8 +21,7 @@ Route::post('login', 'AuthController@postLogin');
 	Route::get('ctasCtesCli/listado', array('as'=>'ctasCtesCli.listadoCli','uses'=>'CtasCtesClienteController@showAllClientes'));
 	Route::resource('ctasCtesCli', 'CtasCtesClienteController');
 
-	//Route::resource('home', 'HomeController');
 
-//});
+});
 
 Event::listen('404', function () {return Response::error('404');});
