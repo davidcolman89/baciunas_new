@@ -21,6 +21,8 @@ Route::group(array('before' => 'auth'), function () {
 	Route::get('ctasCtesCli/listado', array('as'=>'ctasCtesCli.listadoCli','uses'=>'CtasCtesClienteController@showAllClientes'));
 	Route::resource('ctasCtesCli', 'CtasCtesClienteController');
 
+    Route::resource('servicios', 'ServiciosController');
+
 
 });
 

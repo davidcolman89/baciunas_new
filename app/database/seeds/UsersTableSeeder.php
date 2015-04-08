@@ -12,8 +12,9 @@ class UsersTableSeeder extends Seeder {
 		foreach(range(1, 10) as $index)
 		{
 			User::create([
-
-			]);
+                'name'=>'david',
+                'password'=>'123456'
+            ]);
 		}
 	}
 

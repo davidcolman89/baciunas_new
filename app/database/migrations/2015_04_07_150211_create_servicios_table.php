@@ -17,12 +17,13 @@ class CreateServiciosTable extends Migration {
 			$table->increments('id');
 			$table->integer('id_cliente');
 			$table->integer('id_producto');
+            $table->date('fecha_servicio');
 			$table->integer('contenedores');
 			$table->integer('kilos');
 			$table->text('direccion');
 			$table->integer('estado');
 			$table->text('observaciones');
-			$table->increments('muestra_observaciones');
+			$table->integer('muestra_observaciones');
 			$table->string('numero_manifiesto');
 			$table->string('numero_cr');
 			$table->integer('numero_factura');
