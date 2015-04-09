@@ -55,10 +55,7 @@
                 <div class="form-group">
                     <div class="col-md-4">
                         {{ Form::label('estado','Estado') }}
-                        <select id="estado" class="form-control">
-                            <option>Habilitado</option>
-                            <option>Deshabilitado</option>
-                        </select>
+                        {{ Form::select('estado', ['1'=>'Habilidato','2'=>'Deshabilidato'], ['class'=>'form-control']); }}
                     </div>
                 </div>
             </div>
@@ -85,16 +82,8 @@
 </div>
 <div class="row">
     <div class="col-xs-12">
-        <div class="tab-pane active" id="direccion_cobranza">
-            asdasd
-        </div>
-        <div class="tab-pane" id="direccion_facturacion">
-            ggggg
-        </div>
-        <div class="tab-pane" id="direccion_servicio">
-            <div class="row">
-                ggggggggggg
-            </div>
-        </div>
+        <div class="tab-pane active" id="direccion_cobranza"></div>
+        <div class="tab-pane" id="direccion_facturacion"></div>
+        <div class="tab-pane" id="direccion_servicio"><div class="row"></div></div>
     </div>
 </div>
