@@ -33,9 +33,10 @@ class ServiciosController extends \BaseController {
 	public function store()
 	{
 		$data = Input::all();
-		$cliente = new Servicio();
-		$cliente->fill($data);
-		$cliente->save();
+        dd($data);
+		$servicio = new Servicio();
+		$servicio->fill($data);
+		$servicio->save();
 
 		return Redirect::route('servicios.index');
 	}
