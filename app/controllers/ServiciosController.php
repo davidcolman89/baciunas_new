@@ -10,6 +10,7 @@ class ServiciosController extends \BaseController {
 	 */
 	public function index()
 	{
+		dd(Servicio::all()->toArray());
 		return View::make('servicios.listado');
 	}
 
@@ -33,7 +34,6 @@ class ServiciosController extends \BaseController {
 	public function store()
 	{
 		$data = Input::all();
-        dd($data);
 		$servicio = new Servicio();
 		$servicio->fill($data);
 		$servicio->save();

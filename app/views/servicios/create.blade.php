@@ -11,7 +11,7 @@
         <div class="row form-group">
                 <div class="col-md-4">
                     {{ Form::label('id_cliente','Cliente') }}
-                    {{ Form::text('id_cliente',null,['class'=>'form-control']) }}
+                    {{ Form::select('id_cliente', ['1'=>'cliente 1','2'=>'cliente 2'], ['class'=>'form-control']); }}
                 </div>
                 <div class="col-md-4">
                     {{ Form::label('fecha_servicio','Fecha') }}
@@ -38,8 +38,8 @@
         </div>
         <div class="row form-group">
             <div class="col-md-4">
-                {{ Form::label('direccion_servicio','Dirección del Servicio') }}
-                {{ Form::text('direccion_servicio',null,['class'=>'form-control']) }}
+                {{ Form::label('direccion','Dirección del Servicio') }}
+                {{ Form::text('direccion',null,['class'=>'form-control']) }}
             </div>
         </div>
         <div class="row form-group">
@@ -100,9 +100,15 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
-            $("#fecha_servicio").datepicker();
+            $("#fecha_servicio").datepicker({
+                dateFormat: 'yy-mm-dd'
+            });
+            $("#fecha_factura").datepicker({
+                dateFormat: 'yy-mm-dd'
+            });
             $("#id_estado").select2();
             $("#id_producto").select2();
+            $("#id_cliente").select2();
 
             //$("#").click(function(){});
 

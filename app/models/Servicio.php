@@ -3,18 +3,19 @@
 class Servicio extends \Eloquent {
     protected $table = "servicios";
 	protected $fillable = [
-        "id_cliente"
-        ,"fecha_servicio"
-        ,"id_producto"
-        ,"contenedores"
-        ,"kilos"
-        ,"direccion_servicio"
-        ,"id_estado"
-        ,"observaciones"
-        ,"muestra_observaciones"
-        ,"numero_manifiesto"
-        ,"numero_cr"
-        ,"numero_factura"
-        ,"fecha_factura"
+        'id_cliente',
+        'id_producto',
+        'id_estado',
+        'id_usuario_modificacion',
+        'fecha_servicio',
+        'fecha_factura',
+        'contenedores',
+        'kilos',
+        'direccion',
+        'observaciones',
+        'muestra_observaciones',
+        'numero_manifiesto',
+        'numero_cr',
+        'numero_factura',
     ];
 }
