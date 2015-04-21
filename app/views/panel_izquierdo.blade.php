@@ -37,7 +37,7 @@
             <ul>
                 <li><a href="{{ URL::route('clientes.index') }}">Clientes</a></li>
                 <li><a href="{{ URL::route('ctasCtesCli.index') }}">Cuentas Corrientes</a></li>
-                <li><a href="{{ URL::route('servicios.index') }}">Clientes</a></li>
+                <li><a href="{{ URL::route('servicios.index') }}">Servicios</a></li>
             </ul>
         </li>
         <li>

@@ -11,7 +11,7 @@
         <div class="row form-group">
                 <div class="col-md-4">
                     {{ Form::label('id_cliente','Cliente') }}
-                    {{ Form::select('id_cliente', ['1'=>'cliente 1','2'=>'cliente 2'], ['class'=>'form-control']); }}
+                    {{ Form::select('id_cliente', $comboClientes, ['class'=>'form-control']); }}
                 </div>
                 <div class="col-md-4">
                     {{ Form::label('fecha_servicio','Fecha') }}

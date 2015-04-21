@@ -11,4 +11,10 @@ class Cliente extends \Eloquent {
 	];
 
 	protected $table = 'clientes';
+
+	public function servicios()
+	{
+		return $this->hasMany('Servicio', 'id_cliente', 'id');
+	}
+
 }

@@ -18,4 +18,9 @@ class Servicio extends \Eloquent {
         'numero_cr',
         'numero_factura',
     ];
+
+    public function cliente()
+    {
+        return $this->belongsTo('Cliente','id_cliente','id');
+    }
 }

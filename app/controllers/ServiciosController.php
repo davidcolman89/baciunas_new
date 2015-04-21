@@ -10,7 +10,6 @@ class ServiciosController extends \BaseController {
 	 */
 	public function index()
 	{
-		dd(Servicio::all()->toArray());
 		return View::make('servicios.listado');
 	}
 
@@ -22,7 +21,17 @@ class ServiciosController extends \BaseController {
 	 */
 	public function create()
 	{
-		return View::make('servicios.create');
+		$comboClientes = [];
+		$clientes = Cliente::get(['id','razon_social'])->toArray();
+		foreach($clientes as $cliente) {
+			$comboClientes+=[
+				$cliente['id']=>$cliente['razon_social']
+			];
+		}
+
+		return View::make('servicios.create')->with([
+			'comboClientes'=>$comboClientes
+		]);
 	}
 
 	/**
@@ -98,7 +107,10 @@ class ServiciosController extends \BaseController {
 	public function showAll()
 	{
 
-		//
+		$servicios = Servicio::remember(1)->with('cliente')->get(['id','id_cliente'])->toArray();
+		$data = array('data' => $servicios);
+
+		return $data;
 
 	}
 
