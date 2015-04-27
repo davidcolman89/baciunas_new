@@ -80,7 +80,18 @@ Servicios
             "sAjaxSource": "{{URL::route('servicios.listado')}}",
             "aoColumns": [
                 {
-                    "mData": "id"
+                    "mData": "id",
+                    "mRender": function(data, type, full){
+
+                        var sLink, sHref;
+
+                        sHref = ' href="servicios/'+ full.id + '"';
+
+                        sLink = (['<a ' + sHref + ' >#',full.id,'</a>']).join('');
+
+                        return sLink;
+
+                    }
                 },
                 {
                     "mData": "id_cliente",

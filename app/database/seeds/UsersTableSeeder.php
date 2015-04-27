@@ -7,15 +7,10 @@ class UsersTableSeeder extends Seeder {
 
 	public function run()
 	{
-		$faker = Faker::create();
-
-		foreach(range(1, 10) as $index)
-		{
-			User::create([
-                'name'=>'david',
-                'password'=>'123456'
-            ]);
-		}
+        User::create([
+            'name'=>'david',
+            'password'=>'123456'
+        ]);
 	}
 
 }
