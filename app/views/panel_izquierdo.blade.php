@@ -40,6 +40,7 @@
                 <li><a href="#">Tipos de Productos</a></li>
                 <li><a href="{{ URL::route('ctasCtesCli.index') }}">Cuentas Corrientes</a></li>
                 <li><a href="{{ URL::route('servicios.index') }}">Servicios</a></li>
+                <li><a href="{{ URL::route('politicasPrecio.index') }}">Politicas de Precio</a></li>
             </ul>
         </li>
         <li>
@@ -50,6 +51,7 @@
                 <li><a href="#">Productos</a></li>
                 <li><a href="#">Tipos de Productos</a></li>
                 <li><a href="{{ URL::route('servicios.create') }}">Servicios</a></li>
+                <li><a href="{{ URL::route('politicasPrecio.create') }}">Politicas de Precio</a></li>
             </ul>
         </li>
     </ul>
