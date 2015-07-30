@@ -38,10 +38,12 @@ Clientes
                     <th class="hasinput" style="">
                         <input type="text" class="form-control" placeholder="Razon Social"/>
                     </th>
+                    <th class="hasinput" style=""></th>
                 </tr>
                 <tr>
                     <th>ID Cliente</th>
                     <th>Razon Social</th>
+                    <th></th>
                 </tr>
                 </thead>
             </table>
@@ -93,6 +95,14 @@ Clientes
                         sLink = (['<a ' + sHref + ' >',full.razon_social,'</a>']).join('');
 
                         return sLink;
+
+                    }
+                },
+                {
+                    "mData": "accion",
+                    "mRender": function(data, type, full){
+
+                        return "";
 
                     }
                 }

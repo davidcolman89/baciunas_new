@@ -33,6 +33,7 @@ class PoliticasPrecioController extends \BaseController {
 	public function store()
 	{
         $data = Input::all();
+        dd($data);
         $servicio = new PoliticaPrecio();
         $servicio->fill($data);
         $servicio->save();

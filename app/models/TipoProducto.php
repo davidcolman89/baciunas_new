@@ -1,5 +1,6 @@
 <?php
 
 class TipoProducto extends \Eloquent {
-	protected $fillable = [];
+	protected $fillable = ['codigo','tipo'];
+	protected $table = 'tipos_producto';
 }
