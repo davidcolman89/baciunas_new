@@ -12,49 +12,55 @@
             <div class="col-md-12">@include('politicasPrecio.partials.productos')</div>
         </div>
         <div class="form-group">
-            {{ Form::label('id_producto','Producto', ['class'=>'col-md-1 control-label']) }}
-            <div class="col-md-3">
-                {{ Form::select('id_producto', ['1'=>'M5','2'=>'R.ESP','3'=>'FLETE','4'=>'BOLSA','5'=>'AG 5'], ['class'=>'form-control']); }}
+            {{ Form::label('id_cliente','Clientes', ['class'=>'control-label col-md-2']) }}
+            <div class="col-md-2">
+                {{ Form::select('id_cliente', $clientes, ['class'=>'']); }}
             </div>
-            {{ Form::label('cantidad','Cantidad', ['class'=>'col-md-1 control-label']) }}
-            <div class="col-md-3">
-                {{ Form::text('cantidad','', ['class'=>'form-control']); }}
+        <div>
+        <div class="form-group">
+            {{ Form::label('id_producto','Producto', ['class'=>'control-label col-md-2']) }}
+            <div class="col-md-2">
+                {{ Form::select('id_producto', ['1'=>'M5','2'=>'R.ESP','3'=>'FLETE','4'=>'BOLSA','5'=>'AG 5'], ['class'=>'']); }}
             </div>
-            {{ Form::label('id_frecuencia','Frecuencia', ['class'=>'col-md-1 control-label']) }}
-            <div class="col-md-3">
+        <div>
+        <div class="form-group">
+            {{ Form::label('cantidad','Cantidad', ['class'=>'control-label col-md-2']) }}
+            <div class="col-md-2">
+                {{ Form::text('cantidad','', ['class'=>'form-control spinner']); }}
+            </div>
+        </div>
+        <div class="form-group">
+            {{ Form::label('id_frecuencia','Frecuencia', ['class'=>'control-label col-md-2']) }}
+            <div class="col-md-2">
                 {{ Form::select('id_frecuencia', ['1'=>'LLAMAM','2'=>'Esporadico','3'=>'Los 25 de cada'], ['class'=>'form-control']); }}
             </div>
         </div>
         <div class="form-group">
-            <div class="col-md-1">
-                {{ Form::label('chk-dias','Lunes') }}
-                {{ Form::checkbox('chk-dias','', ['class'=>'form-control']); }}
-            </div>
-            <div class="col-md-1">
-                {{ Form::label('chk-dias','Martes') }}
-                {{ Form::checkbox('chk-dias','', ['class'=>'form-control']); }}
-            </div>
-            <div class="col-md-1">
-                {{ Form::label('chk-dias','Miercoles') }}
-                {{ Form::checkbox('chk-dias','', ['class'=>'form-control']); }}
-            </div>
-            <div class="col-md-1">
-                {{ Form::label('chk-dias','Jueves') }}
-                {{ Form::checkbox('chk-dias','', ['class'=>'form-control']); }}
-            </div>
-            <div class="col-md-1">
-                {{ Form::label('chk-dias','Viernes') }}
-                {{ Form::checkbox('chk-dias','', ['class'=>'form-control']); }}
-            </div>
-            <div class="col-md-1">
-                {{ Form::label('chk-dias','Sabado') }}
-                {{ Form::checkbox('chk-dias','', ['class'=>'form-control']); }}
-            </div>
-            <div class="col-md-1">
-                {{ Form::label('chk-dias','Domingo') }}
-                {{ Form::checkbox('chk-dias','', ['class'=>'form-control']); }}
+            <div class="col-md-12">
+                <label class="checkbox-inline">
+                    <span>Lunes</span>{{ Form::checkbox('lunes','1', ['class'=>'checkbox style-0']); }}
+                </label>
+                <label class="checkbox-inline">
+                    <span>Martes</span>{{ Form::checkbox('martes','1', ['class'=>'checkbox style-0']); }}
+                </label>
+                <label class="checkbox-inline">
+                    <span>Miercoles</span>{{ Form::checkbox('miercoles','1', ['class'=>'checkbox style-0']); }}
+                </label>
+                <label class="checkbox-inline">
+                    <span>Jueves</span>{{ Form::checkbox('jueves','1', ['class'=>'checkbox style-0']); }}
+                </label>
+                <label class="checkbox-inline">
+                    <span>Viernes</span>{{ Form::checkbox('viernes','1', ['class'=>'checkbox style-0']); }}
+                </label>
+                <label class="checkbox-inline">
+                    <span>Sabado</span>{{ Form::checkbox('sabado','1', ['class'=>'checkbox style-0']); }}
+                </label>
+                <label class="checkbox-inline">
+                    <span>Domingo</span>{{ Form::checkbox('domingo','1', ['class'=>'checkbox style-0']); }}
+                </label>
             </div>
         </div>
+
         <div class="form-group">
             <div class="col-md-6">
                 <div class="row form-group">
@@ -62,24 +68,24 @@
                     <div class="col-md-6">El precio es igual a</div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-6">{{ Form::text('','', ['class'=>'form-control']); }}</div>
-                    <div class="col-md-6">{{ Form::text('','', ['class'=>'form-control']); }}</div>
+                    <div class="col-md-6">{{ Form::text('politicas_cantidad[1][cantidad]','', ['class'=>'form-control spinner']); }}</div>
+                    <div class="col-md-6">{{ Form::text('politicas_cantidad[1][cuota]','', ['class'=>'form-control spinner-decimal']); }}</div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-6">{{ Form::text('','', ['class'=>'form-control']); }}</div>
-                    <div class="col-md-6">{{ Form::text('','', ['class'=>'form-control']); }}</div>
+                    <div class="col-md-6">{{ Form::text('politicas_cantidad[2][cantidad]','', ['class'=>'form-control spinner']); }}</div>
+                    <div class="col-md-6">{{ Form::text('politicas_cantidad[2][cuota]','', ['class'=>'form-control spinner-decimal']); }}</div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-6">{{ Form::text('','', ['class'=>'form-control']); }}</div>
-                    <div class="col-md-6">{{ Form::text('','', ['class'=>'form-control']); }}</div>
+                    <div class="col-md-6">{{ Form::text('politicas_cantidad[3][cantidad]','', ['class'=>'form-control spinner']); }}</div>
+                    <div class="col-md-6">{{ Form::text('politicas_cantidad[3][cuota]','', ['class'=>'form-control spinner-decimal']); }}</div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-6">{{ Form::text('','', ['class'=>'form-control']); }}</div>
-                    <div class="col-md-6">{{ Form::text('','', ['class'=>'form-control']); }}</div>
+                    <div class="col-md-6">{{ Form::text('politicas_cantidad[4][cantidad]','', ['class'=>'form-control spinner']); }}</div>
+                    <div class="col-md-6">{{ Form::text('politicas_cantidad[4][cuota]','', ['class'=>'form-control spinner-decimal']); }}</div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-6">{{ Form::text('','', ['class'=>'form-control']); }}</div>
-                    <div class="col-md-6">{{ Form::text('','', ['class'=>'form-control']); }}</div>
+                    <div class="col-md-6">{{ Form::text('politicas_cantidad[5][cantidad]','', ['class'=>'form-control spinner']); }}</div>
+                    <div class="col-md-6">{{ Form::text('politicas_cantidad[5][cuota]','', ['class'=>'form-control spinner-decimal']); }}</div>
                 </div>
             </div>
             <div class="col-md-6">
@@ -88,20 +94,20 @@
                     <div class="col-md-6">El precio es igual a</div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-6">{{ Form::text('','', ['class'=>'form-control']); }}</div>
-                    <div class="col-md-6">{{ Form::text('','', ['class'=>'form-control']); }}</div>
+                    <div class="col-md-6">{{ Form::text('politicas_peso[1][cantidad]','', ['class'=>'form-control spinner']); }}</div>
+                    <div class="col-md-6">{{ Form::text('politicas_peso[1][cuota]','', ['class'=>'form-control spinner-decimal']); }}</div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-6">{{ Form::text('','', ['class'=>'form-control']); }}</div>
-                    <div class="col-md-6">{{ Form::text('','', ['class'=>'form-control']); }}</div>
+                    <div class="col-md-6">{{ Form::text('politicas_peso[2][cantidad]','', ['class'=>'form-control spinner']); }}</div>
+                    <div class="col-md-6">{{ Form::text('politicas_peso[2][cuota]','', ['class'=>'form-control spinner-decimal']); }}</div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-6">{{ Form::text('','', ['class'=>'form-control']); }}</div>
-                    <div class="col-md-6">{{ Form::text('','', ['class'=>'form-control']); }}</div>
+                    <div class="col-md-6">{{ Form::text('politicas_peso[3][cantidad]','', ['class'=>'form-control spinner']); }}</div>
+                    <div class="col-md-6">{{ Form::text('politicas_peso[3][cuota]','', ['class'=>'form-control spinner-decimal']); }}</div>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-6">Cuota Mensual</div>
-                    <div class="col-md-6">{{ Form::text('','', ['class'=>'form-control']); }}</div>
+                    <div class="col-md-6">{{ Form::text('cuota','', ['class'=>'form-control spinner-decimal']); }}</div>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-12">
@@ -179,19 +185,16 @@
 
             });
 
+            $(".spinner-decimal").spinner({
+                step: 0.01,
+                numberFormat: "n"
+            });
+            $(".spinner").spinner({min:0});
+
             $("#id_producto, #id_frecuencia").select2();
 
             $('#btn-guardar').click(function(e){
-                e.preventDefault();
-                var data = $('#frm-politica_precio').serialize();
 
-                $.ajax({
-                    type:'POST',
-                    url:'{{ route('politicasPrecio.store') }}',
-                    data:data
-                }).done(function(){
-                    
-                });
             });
 
         });

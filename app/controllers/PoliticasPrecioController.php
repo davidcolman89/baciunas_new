@@ -10,6 +10,8 @@ class PoliticasPrecioController extends \BaseController {
 	 */
 	public function index()
 	{
+        $politica = PoliticaPrecio::find(1);
+        dd($politica->with(['politicaCantidad','politicaPeso'])->get()->toArray());
         return View::make('politicas_precio.listado');
 	}
 
@@ -21,6 +23,7 @@ class PoliticasPrecioController extends \BaseController {
 	 */
 	public function create()
 	{
+        $clientes = Cliente::lists('razon_social','id');
         return View::make('politicasPrecio.create');
 	}
 
@@ -33,10 +36,36 @@ class PoliticasPrecioController extends \BaseController {
 	public function store()
 	{
         $data = Input::all();
-        dd($data);
-        $servicio = new PoliticaPrecio();
-        $servicio->fill($data);
-        $servicio->save();
+        $politicasCantidad = $data['politicas_cantidad'];
+        $politicasPeso = $data['politicas_peso'];
+
+        $politica = new PoliticaPrecio();
+        $politica->fill($data);
+        $politica->save();
+
+        $idPolitica = $politica->id;
+
+        foreach($politicasCantidad as $item)
+        {
+            $politicaCantidad = new PoliticaCantidad();
+            $politicaCantidad->fill([
+                'id_politica_precio'=>$idPolitica,
+                'cantidad'=>$item['cantidad'],
+                'cuota'=>$item['cuota'],
+            ]);
+            $politicaCantidad->save();
+        }
+
+        foreach($politicasPeso as $item)
+        {
+            $politicaPrecio = new PoliticaPeso();
+            $politicaPrecio->fill([
+                'id_politica_precio'=>$idPolitica,
+                'cantidad'=>$item['cantidad'],
+                'cuota'=>$item['cuota'],
+            ]);
+            $politicaPrecio->save();
+        }
 
         return Redirect::route('politicasPrecio.index');
 	}

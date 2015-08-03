@@ -15,6 +15,7 @@ class CreatePoliticaPrecioTable extends Migration {
 		Schema::create('politica_precio', function(Blueprint $table)
 		{
 			$table->increments('id');
+			$table->integer('id_cliente');
 			$table->integer('id_producto');
 			$table->integer('id_frecuencia');
 			$table->integer('cantidad');
