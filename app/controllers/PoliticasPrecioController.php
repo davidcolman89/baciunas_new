@@ -10,9 +10,8 @@ class PoliticasPrecioController extends \BaseController {
 	 */
 	public function index()
 	{
-        $politica = PoliticaPrecio::find(1);
-        dd($politica->with(['politicaCantidad','politicaPeso'])->get()->toArray());
-        return View::make('politicas_precio.listado');
+        $politica = PoliticaPrecio::all();
+        return View::make('politicas_precio.listado')->with($politica);
 	}
 
 	/**
@@ -23,8 +22,10 @@ class PoliticasPrecioController extends \BaseController {
 	 */
 	public function create()
 	{
-        $clientes = Cliente::lists('razon_social','id');
-        return View::make('politicasPrecio.create');
+        $clientes = Cliente::orderBy('razon_social')->lists('razon_social','id');
+        $productos = ['1'=>'M5','2'=>'R.ESP','3'=>'FLETE','4'=>'BOLSA','5'=>'AG 5'];
+        $frecuencias = ['1'=>'LLAMAM','2'=>'Esporadico','3'=>'Los 25 de cada'];
+        return View::make('politicasPrecio.create')->with(compact('clientes','productos','frecuencias'));
 	}
 
 	/**
@@ -39,17 +40,16 @@ class PoliticasPrecioController extends \BaseController {
         $politicasCantidad = $data['politicas_cantidad'];
         $politicasPeso = $data['politicas_peso'];
 
-        $politica = new PoliticaPrecio();
-        $politica->fill($data);
-        $politica->save();
-
-        $idPolitica = $politica->id;
+        $politicaPeso = new PoliticaPrecio();
+        $politicaPeso->fill($data);
+        $politicaPeso->save();
+        $idPoliticaPrecio = $politicaPeso->id;
 
         foreach($politicasCantidad as $item)
         {
             $politicaCantidad = new PoliticaCantidad();
             $politicaCantidad->fill([
-                'id_politica_precio'=>$idPolitica,
+                'id_politica_precio'=>$idPoliticaPrecio,
                 'cantidad'=>$item['cantidad'],
                 'cuota'=>$item['cuota'],
             ]);
@@ -58,13 +58,13 @@ class PoliticasPrecioController extends \BaseController {
 
         foreach($politicasPeso as $item)
         {
-            $politicaPrecio = new PoliticaPeso();
-            $politicaPrecio->fill([
-                'id_politica_precio'=>$idPolitica,
+            $politicaPeso = new PoliticaPeso();
+            $politicaPeso->fill([
+                'id_politica_precio'=>$idPoliticaPrecio,
                 'cantidad'=>$item['cantidad'],
                 'cuota'=>$item['cuota'],
             ]);
-            $politicaPrecio->save();
+            $politicaPeso->save();
         }
 
         return Redirect::route('politicasPrecio.index');
@@ -128,7 +128,16 @@ class PoliticasPrecioController extends \BaseController {
     {
 
         #$politicaPrecio = PoliticaPrecio::remember(1)->with('cliente')->get(['id'])->toArray();
-        $politicaPrecio = [
+
+        $data = array('data' => $politicaPrecio);
+
+        return $data;
+
+    }
+
+    public function getPoliticasByCliente($idCliente)
+    {
+        return $politicaPrecio = [
             [
                 'producto'=>'M1',
                 'cliente'=>'NOMASGOT S.R.L (W)',
@@ -154,17 +163,13 @@ class PoliticasPrecioController extends \BaseController {
                 'cantidad'=>'-',
                 'abono'=>'True',
             ],[
-                'producto'=>'BOLSA',
+                'producto'=>'asdasd',
                 'cliente'=>'NOMASGOT S.R.L (W)',
                 'frecuencia'=>'LOS 25 DE CADA',
                 'cantidad'=>'-',
                 'abono'=>'True',
             ]
         ];
-        $data = array('data' => $politicaPrecio);
-
-        return $data;
-
     }
 
 }
