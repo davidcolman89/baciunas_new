@@ -13,9 +13,6 @@
             <div class="col-md-2">
                 {{ Form::select('id_cliente', $clientes, ['class'=>'form-control']); }}
             </div>
-            <div class="col-md-2">
-                {{ Form::button('Traer Politica de Precio', ['type'=>'button', 'class'=>'btn btn-primary','id'=>'btn-cargar-politicas']) }}
-            </div>
         </div>
         <div class="form-group">
             <div class="col-md-12"><br></div>
@@ -43,6 +40,13 @@
                     {{ Form::label('cantidad','Cantidad', ['class'=>'control-label col-md-2']) }}
                     <div class="col-md-10">
                         {{ Form::text('cantidad','', ['class'=>'form-control spinner']); }}
+                    </div>
+                </div>
+                <div class="form-group"><div class="col-md-12"><br></div></div>
+                <div class="form-group">
+                    {{ Form::label('cuota','Cuota Mensual', ['class'=>'control-label col-md-2']) }}
+                    <div class="col-md-10">
+                        {{ Form::text('cuota','', ['class'=>'form-control spinner-decimal']); }}
                     </div>
                 </div>
             </div>
@@ -122,10 +126,6 @@
                     <div class="col-md-6">{{ Form::text('politicas_peso[3][cuota]','', ['class'=>'form-control spinner-decimal']); }}</div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-6">Cuota Mensual</div>
-                    <div class="col-md-6">{{ Form::text('cuota','', ['class'=>'form-control spinner-decimal']); }}</div>
-                </div>
-                <div class="row form-group">
                     <div class="col-md-12">
                         {{ Form::button('Historico', ['class'=>'btn btn-default']) }}
                     </div>
@@ -141,58 +141,61 @@
 @stop
 @section('js')
     <script type="text/javascript">
+        var datatablePoliticas = $('#dt-productos').DataTable({
+            "bProcessing": true,
+            "ajax":"",
+            "aoColumns": [
+                {
+                    "mData": "producto",
+                    "mRender": function(data, type, full){
+                        return data.producto;
+                    }
+                },
+                {
+                    "mData": "cliente",
+                    "mRender": function(data, type, full){
+                        return data.razon_social;
+                    }
+                },
+                {
+                    "mData": "frecuencia",
+                    "mRender": function(data, type, full){
+                        return data.frecuencia;
+                    }
+                },
+                {
+                    "mData": "cantidad"
+                },
+                {
+                    "mData": "abono"
+                },
+                {
+                    "mData": "acciones",
+                    "mRender": function(data, type, full){
+                        return '<input data-id="'+ full.id + '" type="button" class="btn btn-default btn-politica-ver" value="Ver">';
+                    }
+                }
+            ],
+            "language": {"url": "{{URL::asset('datatables/json/dataTables.lang.es.json')}}"},
+            "lengthMenu": [
+                [10, 25, 50, -1],
+                [10, 25, 50, "Todo"]
+            ],
+            "iDisplayLength": -1,
+            "sDom":
+            "<'dt-toolbar'" +
+            "<'col-sm-6'l>" +
+            "<'col-sm-6'f>" +
+            "r" +
+            ">" +
+            "t" +
+            "<'dt-toolbar-footer'<'col-xs-6'i><'col-xs-6'p>>"
+        });
+
         $(document).ready(function () {
 
-            var oTable = $('#dt-productos').DataTable({
-                "bProcessing": true,
-                "aoColumns": [
-                    {
-                        "mData": "producto"
-                    },
-                    {
-                        "mData": "cliente"
-                    },
-                    {
-                        "mData": "frecuencia"
-                    },
-                    {
-                        "mData": "cantidad"
-                    },
-                    {
-                        "mData": "abono"
-                    },
-                    {
-                        "mData": "acciones",
-                        "mRender": function(data, type, full){
-                            var button;
-                            button = '<input type="button" class="btn   btn-default" id="btn-cargar-info" value="Ver">';
-
-                            return button;
-
-                        }
-                    }
-                ],
-                "columnDefs": [
-                    { "type": "html", "targets": 1 }
-                ],
-                "language": {"url": "{{URL::asset('datatables/json/dataTables.lang.es.json')}}"},
-                "lengthMenu": [
-                    [10, 25, 50, -1],
-                    [10, 25, 50, "Todo"]
-                ],
-                "iDisplayLength": -1,
-                "sDom":
-                "<'dt-toolbar'" +
-                "<'col-sm-6'l>" +
-                "<'col-sm-6'f>" +
-                "r" +
-                ">" +
-                "t" +
-                "<'dt-toolbar-footer'<'col-xs-6'i><'col-xs-6'p>>"
-            });
-
             $("#dt-productos thead th input[type=text]").on('keyup change', function () {
-                oTable
+                datatablePoliticas
                         .column($(this).parent().index() + ':visible')
                         .search(this.value)
                         .draw();
@@ -205,17 +208,29 @@
             });
             $(".spinner").spinner({min:0});
 
-            $("#id_cliente").select2({
-                containerCssClass:'col-md-12',
-            });
             $("#id_producto, #id_frecuencia, #id_cliente").select2({
                 containerCssClass:'col-md-12',
             });
+
+            $("#id_cliente").change(function(){
+                var self = $(this);
+                var idCliente = self.val();
+                getPoliticasByCliente(idCliente);
+            });
+
+            getPoliticasByCliente($("#id_cliente").val());
 
             $('#btn-guardar').click(function(e){
 
             });
 
         });
+
+        function getPoliticasByCliente(idCliente) {
+            var url = 'byCliente/' + idCliente;
+            console.log(url);
+            datatablePoliticas.ajax.url(url).load();
+        }
+
     </script>
 @stop

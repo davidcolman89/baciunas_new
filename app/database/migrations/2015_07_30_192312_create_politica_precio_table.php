@@ -27,6 +27,7 @@ class CreatePoliticaPrecioTable extends Migration {
 			$table->boolean('viernes');
 			$table->boolean('sabado');
 			$table->boolean('domingo');
+			$table->boolean('abono');
 			$table->timestamps();
 		});
 	}

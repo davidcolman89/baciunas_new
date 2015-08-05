@@ -17,4 +17,9 @@ class Cliente extends \Eloquent {
 		return $this->hasMany('Servicio', 'id_cliente', 'id');
 	}
 
+	public function politicasPrecio()
+	{
+		return $this->hasMany('PoliticaPrecio', 'id_cliente', 'id');
+	}
+
 }

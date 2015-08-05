@@ -1,3 +1,6 @@
+<!-- LIBRERIAS -->
+<script src="{{ URL::asset('app/js/lib/empty.js') }}"></script>
+
 <!-- PACE LOADER - turn this on if you want ajax loading to show (caution: uses lots of memory on iDevices)-->
 <script data-pace-options='{ "restartOnRequestAfter": true }' src="{{ URL::asset('smartadmin/js/plugin/pace/pace.min.js') }}"></script>
 

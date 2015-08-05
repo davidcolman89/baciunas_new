@@ -40,6 +40,10 @@ class PoliticasPrecioController extends \BaseController {
         $politicasCantidad = $data['politicas_cantidad'];
         $politicasPeso = $data['politicas_peso'];
 
+        $abono = 0;
+        if(!empty($data['cuota'])) $abono = 1;
+        $data['abono'] = $abono;
+
         $politicaPeso = new PoliticaPrecio();
         $politicaPeso->fill($data);
         $politicaPeso->save();
@@ -67,7 +71,7 @@ class PoliticasPrecioController extends \BaseController {
             $politicaPeso->save();
         }
 
-        return Redirect::route('politicasPrecio.index');
+        return Redirect::route('politicasPrecio.create');
 	}
 
 	/**
@@ -79,7 +83,7 @@ class PoliticasPrecioController extends \BaseController {
 	 */
 	public function show($id)
 	{
-        return PoliticaPrecio::find($id);
+
 	}
 
 	/**
@@ -91,9 +95,7 @@ class PoliticasPrecioController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-        $politicaPrecio = PoliticaPrecio::find($id);
 
-        return View::make('politicasPrecio.edit',compact('politicaPrecio'));
 	}
 
 	/**
@@ -105,11 +107,7 @@ class PoliticasPrecioController extends \BaseController {
 	 */
 	public function update($id)
 	{
-        $data = Input::all();
-        $politicaPrecio = PoliticaPrecio::find($id);
-        $politicaPrecio->update($data);
 
-        return Redirect::route('politicasPrecio.index');
 	}
 
 	/**
@@ -121,55 +119,18 @@ class PoliticasPrecioController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+
 	}
 
     public function showAll()
     {
 
-        #$politicaPrecio = PoliticaPrecio::remember(1)->with('cliente')->get(['id'])->toArray();
-
-        $data = array('data' => $politicaPrecio);
-
-        return $data;
-
     }
 
     public function getPoliticasByCliente($idCliente)
     {
-        return $politicaPrecio = [
-            [
-                'producto'=>'M1',
-                'cliente'=>'NOMASGOT S.R.L (W)',
-                'frecuencia'=>'LLAMAM',
-                'cantidad'=>'$1,00',
-                'abono'=>'True',
-            ],[
-                'producto'=>'AG M5',
-                'cliente'=>'NOMASGOT S.R.L (W)',
-                'frecuencia'=>'esporadico',
-                'cantidad'=>'-',
-                'abono'=>'True',
-            ],[
-                'producto'=>'R.ESP',
-                'cliente'=>'NOMASGOT S.R.L (W)',
-                'frecuencia'=>'LOS 25 DE CADA',
-                'cantidad'=>'-',
-                'abono'=>'True',
-            ],[
-                'producto'=>'FLETE',
-                'cliente'=>'NOMASGOT S.R.L (W)',
-                'frecuencia'=>'LOS 25 DE CADA',
-                'cantidad'=>'-',
-                'abono'=>'True',
-            ],[
-                'producto'=>'asdasd',
-                'cliente'=>'NOMASGOT S.R.L (W)',
-                'frecuencia'=>'LOS 25 DE CADA',
-                'cantidad'=>'-',
-                'abono'=>'True',
-            ]
-        ];
+        $politicaPrecio = PoliticaPrecio::with('cliente','producto','frecuencia')->where('id_cliente',$idCliente)->get()->toArray();
+        return ['data' => $politicaPrecio];
     }
 
 }
