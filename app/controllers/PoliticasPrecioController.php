@@ -23,9 +23,8 @@ class PoliticasPrecioController extends \BaseController {
 	public function create()
 	{
         $clientes = Cliente::orderBy('razon_social')->lists('razon_social','id');
-        $productos = ['1'=>'M5','2'=>'R.ESP','3'=>'FLETE','4'=>'BOLSA','5'=>'AG 5'];
-        $frecuencias = ['1'=>'LLAMAM','2'=>'Esporadico','3'=>'Los 25 de cada'];
-        return View::make('politicasPrecio.create')->with(compact('clientes','productos','frecuencias'));
+        $frecuencias = PoliticaPrecioFrecuencias::orderBy('frecuencia')->lists('frecuencia','id');
+        return View::make('politicasPrecio.create')->with(compact('clientes','frecuencias'));
 	}
 
 	/**

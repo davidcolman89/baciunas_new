@@ -104,4 +104,9 @@ class ClientesController extends \BaseController {
 
 	}
 
+	public function getProductos($idCliente)
+	{
+		return Producto::where('id_cliente',$idCliente)->orderBy('producto')->lists('producto','id');
+	}
+
 }

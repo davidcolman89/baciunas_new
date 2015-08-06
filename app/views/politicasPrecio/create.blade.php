@@ -28,7 +28,7 @@
                 <div class="form-group">
                     {{ Form::label('id_producto','Producto', ['class'=>'control-label col-md-2']) }}
                     <div class="col-md-10">
-                        {{ Form::select('id_producto', $productos, ['class'=>'form-control']); }}
+                        {{ Form::select('id_producto',[], ['class'=>'form-control']); }}
                     </div>
                 </div>
                 <div class="form-group"><div class="col-md-12"><br></div></div>
@@ -57,22 +57,22 @@
                 <div class="form-group">
                     <div class="col-md-12">
                         <label class="checkbox-inline">
-                            <span>Lunes</span>{{ Form::checkbox('lunes','1', ['class'=>'checkbox style-0']); }}
+                            <span>Lunes</span>{{ Form::checkbox('dias[lunes]','1', ['class'=>'checkbox style-0']); }}
                         </label>
                         <label class="checkbox-inline">
-                            <span>Martes</span>{{ Form::checkbox('martes','1', ['class'=>'checkbox style-0']); }}
+                            <span>Martes</span>{{ Form::checkbox('dias[martes]','1', ['class'=>'checkbox style-0']); }}
                         </label>
                         <label class="checkbox-inline">
-                            <span>Miercoles</span>{{ Form::checkbox('miercoles','1', ['class'=>'checkbox style-0']); }}
+                            <span>Miercoles</span>{{ Form::checkbox('dias[miercoles]','1', ['class'=>'checkbox style-0']); }}
                         </label>
                         <label class="checkbox-inline">
-                            <span>Jueves</span>{{ Form::checkbox('jueves','1', ['class'=>'checkbox style-0']); }}
+                            <span>Jueves</span>{{ Form::checkbox('dias[jueves]','1', ['class'=>'checkbox style-0']); }}
                         </label>
                         <label class="checkbox-inline">
-                            <span>Viernes</span>{{ Form::checkbox('viernes','1', ['class'=>'checkbox style-0']); }}
+                            <span>Viernes</span>{{ Form::checkbox('dias[viernes]','1', ['class'=>'checkbox style-0']); }}
                         </label>
                         <label class="checkbox-inline">
-                            <span>Sabado</span>{{ Form::checkbox('sabado','1', ['class'=>'checkbox style-0']); }}
+                            <span>Sabado</span>{{ Form::checkbox('dias[sabado]','1', ['class'=>'checkbox style-0']); }}
                         </label>
                         <label class="checkbox-inline">
                             <span>Domingo</span>{{ Form::checkbox('domingo','1', ['class'=>'checkbox style-0']); }}
@@ -178,6 +178,12 @@
             });
         };
 
+        function getProductosByCliente(idCliente) {
+            $.getJSON('/clientes/prosuctos'+idCliente,function(data){
+                console.log(data);
+            });
+        }
+
         $(document).ready(function () {
             datatablePoliticas = $('#dt-productos').DataTable({
                 "bProcessing": true,
@@ -263,6 +269,7 @@
             $("#btn-cargar-politicas").click(function(event){
                 event.preventDefault();
                 getPoliticasByCliente($("#id_cliente").val());
+                getProductosByCliente($("#id_cliente").val());
             });
 
             $('#btn-guardar').click(function(e){

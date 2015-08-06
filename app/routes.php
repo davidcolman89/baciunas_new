@@ -11,6 +11,7 @@ Route::group(array('before' => 'auth'), function () {
 
 	Route::get('home', array('as'=>'home','uses'=>'HomeController@showWelcome'));
 
+	Route::get('clientes/productos/{idCliente}', array('as'=>'clientes.productos','uses'=>'ClientesController@getProductos'));
 	Route::get('clientes/listado', array('as'=>'clientes.listado','uses'=>'ClientesController@showAll'));
 	Route::resource('clientes', 'ClientesController');
 
