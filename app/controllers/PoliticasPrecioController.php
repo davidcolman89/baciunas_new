@@ -44,29 +44,29 @@ class PoliticasPrecioController extends \BaseController {
         if(!empty($data['cuota'])) $abono = 1;
         $data['abono'] = $abono;
 
-        $politicaPeso = new PoliticaPrecio();
-        $politicaPeso->fill($data);
-        $politicaPeso->save();
-        $idPoliticaPrecio = $politicaPeso->id;
+        $politicaPrecio = new PoliticaPrecio();
+        $politicaPrecio->fill($data);
+        $politicaPrecio->save();
+        $idPoliticaPrecio = $politicaPrecio->id;
 
-        foreach($politicasCantidad as $item)
+        foreach($politicasCantidad as $politica)
         {
             $politicaCantidad = new PoliticaCantidad();
             $politicaCantidad->fill([
                 'id_politica_precio'=>$idPoliticaPrecio,
-                'cantidad'=>$item['cantidad'],
-                'cuota'=>$item['cuota'],
+                'cantidad'=>$politica['cantidad'],
+                'cuota'=>$politica['cuota'],
             ]);
             $politicaCantidad->save();
         }
 
-        foreach($politicasPeso as $item)
+        foreach($politicasPeso as $politica)
         {
             $politicaPeso = new PoliticaPeso();
             $politicaPeso->fill([
                 'id_politica_precio'=>$idPoliticaPrecio,
-                'cantidad'=>$item['cantidad'],
-                'cuota'=>$item['cuota'],
+                'cantidad'=>$politica['cantidad'],
+                'cuota'=>$politica['cuota'],
             ]);
             $politicaPeso->save();
         }
@@ -83,7 +83,7 @@ class PoliticasPrecioController extends \BaseController {
 	 */
 	public function show($id)
 	{
-
+        return $politicaPrecio = PoliticaPrecio::with('politicasPeso','politicasCantidad')->find($id)->toArray();
 	}
 
 	/**
@@ -95,19 +95,39 @@ class PoliticasPrecioController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-
 	}
 
-	/**
-	 * Update the specified resource in storage.
-	 * PUT /politicasprecio/{id}
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
+	public function update($idPoliticaPrecio)
 	{
+        $data = Input::all();
+        $politicasCantidad = $data['politicas_cantidad'];
+        $politicasPeso = $data['politicas_peso'];
 
+        $abono = 0;
+        if(!empty($data['cuota'])) $abono = 1;
+        $data['abono'] = $abono;
+
+        $politicaPrecio = PoliticaPrecio::find($idPoliticaPrecio);
+        $politicaPrecio->fill($data);
+        $politicaPrecio->save();
+
+        $index = 0;
+        foreach($politicaPrecio->politicasCantidad as $politicas)
+        {
+            $politicas->fill($politicasCantidad[$index]);
+            $politicas->save();
+            $index++;
+        }
+
+        $index = 0;
+        foreach($politicaPrecio->politicasPeso as $politicas)
+        {
+            $politicas->fill($politicasPeso[$index]);
+            $politicas->save();
+            $index++;
+        }
+
+        return Redirect::route('politicasPrecio.create');
 	}
 
 	/**

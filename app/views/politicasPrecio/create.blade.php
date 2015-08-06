@@ -7,11 +7,14 @@
     <li>Servicios</li>
 @stop
 @section('contenido')
-    {{ Form::open( ['route' => 'politicasPrecio.store','method' => 'POST'],['role' => 'form','id'=>'frm-politica_precio']) }}
+    {{ Form::open( ['route' => 'politicasPrecio.store','method' => 'POST','id'=>'frm-politica-precio'],['role' => 'form']) }}
         <div class="form-group">
             {{ Form::label('id_cliente','Selecccionar Cliente:', ['class'=>'control-label col-md-1']) }}
             <div class="col-md-2">
                 {{ Form::select('id_cliente', $clientes, ['class'=>'form-control']); }}
+            </div>
+            <div class="col-md-2">
+                {{ Form::button('Traer Politicas de Precio', ['type'=>'button', 'class'=>'btn btn-primary','id'=>'btn-cargar-politicas']) }}
             </div>
         </div>
         <div class="form-group">
@@ -88,6 +91,10 @@
                     <div class="col-md-6">El precio es igual a</div>
                 </div>
                 <div class="row form-group">
+                    <div class="col-md-6">{{ Form::text('politicas_cantidad[0][cantidad]','', ['class'=>'form-control spinner']); }}</div>
+                    <div class="col-md-6">{{ Form::text('politicas_cantidad[0][cuota]','', ['class'=>'form-control spinner-decimal']); }}</div>
+                </div>
+                <div class="row form-group">
                     <div class="col-md-6">{{ Form::text('politicas_cantidad[1][cantidad]','', ['class'=>'form-control spinner']); }}</div>
                     <div class="col-md-6">{{ Form::text('politicas_cantidad[1][cuota]','', ['class'=>'form-control spinner-decimal']); }}</div>
                 </div>
@@ -103,15 +110,15 @@
                     <div class="col-md-6">{{ Form::text('politicas_cantidad[4][cantidad]','', ['class'=>'form-control spinner']); }}</div>
                     <div class="col-md-6">{{ Form::text('politicas_cantidad[4][cuota]','', ['class'=>'form-control spinner-decimal']); }}</div>
                 </div>
-                <div class="row form-group">
-                    <div class="col-md-6">{{ Form::text('politicas_cantidad[5][cantidad]','', ['class'=>'form-control spinner']); }}</div>
-                    <div class="col-md-6">{{ Form::text('politicas_cantidad[5][cuota]','', ['class'=>'form-control spinner-decimal']); }}</div>
-                </div>
             </div>
             <div class="col-md-4">
                 <div class="row form-group">
                     <div class="col-md-6">Toneladas Menor a</div>
                     <div class="col-md-6">El precio es igual a</div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-6">{{ Form::text('politicas_peso[0][cantidad]','', ['class'=>'form-control spinner']); }}</div>
+                    <div class="col-md-6">{{ Form::text('politicas_peso[0][cuota]','', ['class'=>'form-control spinner-decimal']); }}</div>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-6">{{ Form::text('politicas_peso[1][cantidad]','', ['class'=>'form-control spinner']); }}</div>
@@ -122,14 +129,15 @@
                     <div class="col-md-6">{{ Form::text('politicas_peso[2][cuota]','', ['class'=>'form-control spinner-decimal']); }}</div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-6">{{ Form::text('politicas_peso[3][cantidad]','', ['class'=>'form-control spinner']); }}</div>
-                    <div class="col-md-6">{{ Form::text('politicas_peso[3][cuota]','', ['class'=>'form-control spinner-decimal']); }}</div>
-                </div>
-                <div class="row form-group">
                     <div class="col-md-12">
                         {{ Form::button('Historico', ['class'=>'btn btn-default']) }}
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                {{ Form::hidden('_method','post') }}
             </div>
         </div>
         <div class="form-group">
@@ -141,58 +149,98 @@
 @stop
 @section('js')
     <script type="text/javascript">
-        var datatablePoliticas = $('#dt-productos').DataTable({
-            "bProcessing": true,
-            "ajax":"",
-            "aoColumns": [
-                {
-                    "mData": "producto",
-                    "mRender": function(data, type, full){
-                        return data.producto;
+        var datatablePoliticas;
+
+        function getPoliticasByCliente(idCliente) {
+            var url = 'byCliente/' + idCliente;
+            datatablePoliticas.ajax.url(url).load();
+        }
+        function completarFormPoliticaPrecio(data) {
+            $.each(data,function(index, value){
+                if(index!='politicas_peso' && index!='politicas_cantidad'){
+                    var dias = $.inArray( index, ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"]);
+                    if(dias>=0){//Checkboxs
+                        var boolean = (parseInt(value)===0) ? false : true;
+                        $('input[name="'+index+'"]').prop('checked', boolean);
+                    }else{
+                        if(index==='id_producto' || index==='id_frecuencia'){//Select2
+                            $('#'+index).val(value).trigger("change");
+                        }else{//inputs
+                            $('#'+index).val(value);
+                        }
                     }
-                },
-                {
-                    "mData": "cliente",
-                    "mRender": function(data, type, full){
-                        return data.razon_social;
-                    }
-                },
-                {
-                    "mData": "frecuencia",
-                    "mRender": function(data, type, full){
-                        return data.frecuencia;
-                    }
-                },
-                {
-                    "mData": "cantidad"
-                },
-                {
-                    "mData": "abono"
-                },
-                {
-                    "mData": "acciones",
-                    "mRender": function(data, type, full){
-                        return '<input data-id="'+ full.id + '" type="button" class="btn btn-default btn-politica-ver" value="Ver">';
-                    }
+                }else{//Inputs
+                    $.each(value, function (index_a, object) {
+                        $('input[name="'+index+'[' + index_a + '][cantidad]"]').val(object.cantidad);
+                        $('input[name="'+index+'[' + index_a + '][cuota]"]').val(object.cuota);
+                    });
                 }
-            ],
-            "language": {"url": "{{URL::asset('datatables/json/dataTables.lang.es.json')}}"},
-            "lengthMenu": [
-                [10, 25, 50, -1],
-                [10, 25, 50, "Todo"]
-            ],
-            "iDisplayLength": -1,
-            "sDom":
-            "<'dt-toolbar'" +
-            "<'col-sm-6'l>" +
-            "<'col-sm-6'f>" +
-            "r" +
-            ">" +
-            "t" +
-            "<'dt-toolbar-footer'<'col-xs-6'i><'col-xs-6'p>>"
-        });
+            });
+        };
 
         $(document).ready(function () {
+            datatablePoliticas = $('#dt-productos').DataTable({
+                "bProcessing": true,
+                "ajax":"",
+                "aoColumns": [
+                    {
+                        "mData": "producto",
+                        "mRender": function(data, type, full){
+                            return data.producto;
+                        }
+                    },
+                    {
+                        "mData": "cliente",
+                        "mRender": function(data, type, full){
+                            return data.razon_social;
+                        }
+                    },
+                    {
+                        "mData": "frecuencia",
+                        "mRender": function(data, type, full){
+                            return data.frecuencia;
+                        }
+                    },
+                    {
+                        "mData": "cantidad"
+                    },
+                    {
+                        "mData": "abono"
+                    },
+                    {
+                        "mData": "acciones",
+                        "mRender": function(data, type, full){
+                            return '<input data-id="'+ full.id + '" type="button" class="btn btn-default btn-politica-ver" value="Ver">';
+                        }
+                    }
+                ],
+                "language": {"url": "{{URL::asset('datatables/json/dataTables.lang.es.json')}}"},
+                "lengthMenu": [
+                    [4, 8, 12, -1],
+                    [4, 8, 12, "Todo"]
+                ],
+                "iDisplayLength": 4,
+                "sDom":
+                "<'dt-toolbar'" +
+                "<'col-sm-6'l>" +
+                "<'col-sm-6'f>" +
+                "r" +
+                ">" +
+                "t" +
+                "<'dt-toolbar-footer'<'col-xs-6'i><'col-xs-6'p>>"
+            });
+
+            $('#dt-productos').on('click','.btn-politica-ver',function(event){
+                event.preventDefault();
+                var self = $(this);
+                var url = self.attr('data-id');
+                $.getJSON(url,function(data){
+                    completarFormPoliticaPrecio(data);
+                    var id = data.id;
+                    $("#frm-politica-precio").attr('action',id);
+                    $("input[name='_method']").val('put');
+                });
+            });
 
             $("#dt-productos thead th input[type=text]").on('keyup change', function () {
                 datatablePoliticas
@@ -212,25 +260,15 @@
                 containerCssClass:'col-md-12',
             });
 
-            $("#id_cliente").change(function(){
-                var self = $(this);
-                var idCliente = self.val();
-                getPoliticasByCliente(idCliente);
+            $("#btn-cargar-politicas").click(function(event){
+                event.preventDefault();
+                getPoliticasByCliente($("#id_cliente").val());
             });
-
-            getPoliticasByCliente($("#id_cliente").val());
 
             $('#btn-guardar').click(function(e){
 
             });
 
         });
-
-        function getPoliticasByCliente(idCliente) {
-            var url = 'byCliente/' + idCliente;
-            console.log(url);
-            datatablePoliticas.ajax.url(url).load();
-        }
-
     </script>
 @stop

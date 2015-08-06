@@ -18,14 +18,14 @@ class PoliticaPrecio extends \Eloquent {
 	];
 	protected $table = 'politica_precio';
 
-	public function politicaCantidad()
+	public function politicasCantidad()
 	{
-		return $this->hasMany('PoliticaCantidad', 'id_politica_precio', 'id');
+		return $this->hasMany('PoliticaCantidad', 'id_politica_precio', 'id')->orderBy('id','asc');
 	}
 
-	public function politicaPeso()
+	public function politicasPeso()
 	{
-		return $this->hasMany('PoliticaPeso', 'id_politica_precio', 'id');
+		return $this->hasMany('PoliticaPeso', 'id_politica_precio', 'id')->orderBy('id','asc');
 	}
 
 	public function producto()
