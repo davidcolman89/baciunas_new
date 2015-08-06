@@ -21,7 +21,7 @@
         <div class="row form-group">
             <div class="col-md-4">
                 {{ Form::label('id_producto','Producto') }}
-                {{ Form::select('id_producto', ['1'=>'opcion 1'], ['class'=>'form-control']); }}
+                {{ Form::select('id_producto', $productos, ['class'=>'form-control']); }}
             </div>
         </div>
         <div class="row form-group">

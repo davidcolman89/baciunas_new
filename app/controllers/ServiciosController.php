@@ -29,8 +29,15 @@ class ServiciosController extends \BaseController {
 			];
 		}
 
+		$productos = PoliticaPrecio::with('producto')
+			->where('id_cliente',8)
+			->groupBy('id_producto')
+			->get(['id_producto'])
+			->lists('producto','id_producto');
+
 		return View::make('servicios.create')->with([
-			'comboClientes'=>$comboClientes
+			'comboClientes'=>$comboClientes,
+			'productos'=>$productos,
 		]);
 	}
 
