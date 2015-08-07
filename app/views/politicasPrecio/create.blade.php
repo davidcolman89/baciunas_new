@@ -11,7 +11,9 @@
         <div class="form-group">
             {{ Form::label('id_cliente','Selecccionar Cliente:', ['class'=>'control-label col-md-1']) }}
             <div class="col-md-2">
-                {{ Form::select('id_cliente', $clientes, ['class'=>'form-control']); }}
+                <div class="row">
+                    {{ Form::select('id_cliente', $clientes, ['class'=>'form-control']); }}
+                </div>
             </div>
             <div class="col-md-2">
                 {{ Form::button('Traer Politicas de Precio', ['type'=>'button', 'class'=>'btn btn-primary','id'=>'btn-cargar-politicas']) }}
@@ -28,14 +30,18 @@
                 <div class="form-group">
                     {{ Form::label('id_producto','Producto', ['class'=>'control-label col-md-2']) }}
                     <div class="col-md-10">
-                        {{ Form::select('id_producto',[], ['class'=>'form-control']); }}
+                        <div class="row">
+                            {{ Form::select('id_producto',[], ['class'=>'form-control']); }}
+                        </div>
                     </div>
                 </div>
                 <div class="form-group"><div class="col-md-12"><br></div></div>
                 <div class="form-group">
                     {{ Form::label('id_frecuencia','Frecuencia', ['class'=>'control-label col-md-2']) }}
                     <div class="col-md-10">
-                        {{ Form::select('id_frecuencia', $frecuencias, ['class'=>'form-control']); }}
+                        <div class="row">
+                            {{ Form::select('id_frecuencia', $frecuencias, ['class'=>'form-control']); }}
+                        </div>
                     </div>
                 </div>
                 <div class="form-group"><div class="col-md-12"><br></div></div>

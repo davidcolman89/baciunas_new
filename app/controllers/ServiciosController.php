@@ -29,11 +29,14 @@ class ServiciosController extends \BaseController {
 			];
 		}
 
-		$productos = PoliticaPrecio::with('producto')
+		$politicas = PoliticaPrecio::with('producto')
 			->where('id_cliente',8)
 			->groupBy('id_producto')
 			->get(['id_producto'])
 			->lists('producto','id_producto');
+
+		$productos = [];
+		foreach($politicas as $idPolitica=>$producto) $productos[$idPolitica] = $producto->producto;
 
 		return View::make('servicios.create')->with([
 			'comboClientes'=>$comboClientes,
