@@ -30,18 +30,14 @@
                 <div class="form-group">
                     {{ Form::label('id_producto','Producto', ['class'=>'control-label col-md-2']) }}
                     <div class="col-md-10">
-                        <div class="row">
-                            {{ Form::select('id_producto',[], ['class'=>'form-control']); }}
-                        </div>
+                        {{ Form::select('id_producto',[], ['class'=>'form-control']); }}
                     </div>
                 </div>
                 <div class="form-group"><div class="col-md-12"><br></div></div>
                 <div class="form-group">
                     {{ Form::label('id_frecuencia','Frecuencia', ['class'=>'control-label col-md-2']) }}
                     <div class="col-md-10">
-                        <div class="row">
-                            {{ Form::select('id_frecuencia', $frecuencias, ['class'=>'form-control']); }}
-                        </div>
+                        {{ Form::select('id_frecuencia', $frecuencias, ['class'=>'form-control']); }}
                     </div>
                 </div>
                 <div class="form-group"><div class="col-md-12"><br></div></div>
@@ -156,6 +152,9 @@
 @section('js')
     <script type="text/javascript">
         var datatablePoliticas;
+        var selectClientes;
+        var selectProductos;
+        var selectFrecuencias;
 
         function getPoliticasByCliente(idCliente) {
             var url = 'byCliente/' + idCliente;
@@ -185,31 +184,43 @@
         };
 
         function getProductosByCliente(idCliente) {
-            $.getJSON('/clientes/prosuctos'+idCliente,function(data){
-                console.log(data);
+            var urlGetProductos = '../clientes/productos/'+idCliente;
+            $.getJSON(urlGetProductos,function(data){
+                selectProductos.not('.select2-container').empty();
+                selectProductos.select2({data:data});
             });
         }
 
-        $(document).ready(function () {
+        function initializeSelects2() {
+            var options = {
+                theme: "bootstrap",
+                width:"resolve"
+            };
+            selectProductos = $('#id_producto').select2(options);
+            selectFrecuencias = $('#id_frecuencia').select2(options);
+            selectClientes = $('#id_cliente').select2(options);
+        }
+
+        function initializeDataTableProductos() {
             datatablePoliticas = $('#dt-productos').DataTable({
                 "bProcessing": true,
-                "ajax":"",
+                "ajax": "",
                 "aoColumns": [
                     {
                         "mData": "producto",
-                        "mRender": function(data, type, full){
+                        "mRender": function (data, type, full) {
                             return data.producto;
                         }
                     },
                     {
                         "mData": "cliente",
-                        "mRender": function(data, type, full){
+                        "mRender": function (data, type, full) {
                             return data.razon_social;
                         }
                     },
                     {
                         "mData": "frecuencia",
-                        "mRender": function(data, type, full){
+                        "mRender": function (data, type, full) {
                             return data.frecuencia;
                         }
                     },
@@ -221,8 +232,8 @@
                     },
                     {
                         "mData": "acciones",
-                        "mRender": function(data, type, full){
-                            return '<input data-id="'+ full.id + '" type="button" class="btn btn-default btn-politica-ver" value="Ver">';
+                        "mRender": function (data, type, full) {
+                            return '<input data-id="' + full.id + '" type="button" class="btn btn-default btn-politica-ver" value="Ver">';
                         }
                     }
                 ],
@@ -232,8 +243,7 @@
                     [4, 8, 12, "Todo"]
                 ],
                 "iDisplayLength": 4,
-                "sDom":
-                "<'dt-toolbar'" +
+                "sDom": "<'dt-toolbar'" +
                 "<'col-sm-6'l>" +
                 "<'col-sm-6'f>" +
                 "r" +
@@ -242,14 +252,14 @@
                 "<'dt-toolbar-footer'<'col-xs-6'i><'col-xs-6'p>>"
             });
 
-            $('#dt-productos').on('click','.btn-politica-ver',function(event){
+            $('#dt-productos').on('click', '.btn-politica-ver', function (event) {
                 event.preventDefault();
                 var self = $(this);
                 var url = self.attr('data-id');
-                $.getJSON(url,function(data){
+                $.getJSON(url, function (data) {
                     completarFormPoliticaPrecio(data);
                     var id = data.id;
-                    $("#frm-politica-precio").attr('action',id);
+                    $("#frm-politica-precio").attr('action', id);
                     $("input[name='_method']").val('put');
                 });
             });
@@ -261,25 +271,23 @@
                         .draw();
 
             });
+        }
+        $(document).ready(function () {
+            initializeDataTableProductos();
 
             $(".spinner-decimal").spinner({
                 step: 0.01,
-                numberFormat: "n"
+                numberFormat: "n",
+                min:0
             });
             $(".spinner").spinner({min:0});
 
-            $("#id_producto, #id_frecuencia, #id_cliente").select2({
-                containerCssClass:'col-md-12',
-            });
+            initializeSelects2();
 
             $("#btn-cargar-politicas").click(function(event){
                 event.preventDefault();
-                getPoliticasByCliente($("#id_cliente").val());
-                getProductosByCliente($("#id_cliente").val());
-            });
-
-            $('#btn-guardar').click(function(e){
-
+                getPoliticasByCliente(selectClientes.val());
+                getProductosByCliente(selectClientes.val());
             });
 
         });

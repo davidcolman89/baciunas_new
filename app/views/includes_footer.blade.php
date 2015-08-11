@@ -34,7 +34,8 @@
 <script src="{{ URL::asset('smartadmin/js/plugin/masked-input/jquery.maskedinput.min.js') }}"></script>
 
 <!-- JQUERY SELECT2 INPUT -->
-<script src="{{ URL::asset('smartadmin/js/plugin/select2/select2.min.js') }}"></script>
+<!--<script src="{{ URL::asset('smartadmin/js/plugin/select2/select2.min.js') }}"></script>-->
+<script src="{{ URL::asset('smartadmin/js/plugin/select2/v4.0.0/select2.full.min.js') }}"></script>
 
 <!-- JQUERY UI + Bootstrap Slider -->
 <script src="{{ URL::asset('smartadmin/js/plugin/bootstrap-slider/bootstrap-slider.min.js') }}"></script>

@@ -74,3 +74,6 @@
 <link rel="apple-touch-startup-image" href="{{ URL::asset('smartadmin/img/splash/ipad-portrait.png') }}"
       media="screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation:portrait)">
 <link rel="apple-touch-startup-image" href="{{ URL::asset('smartadmin/img/splash/iphone.png') }}" media="screen and (max-device-width: 320px)">
+
+<link rel="stylesheet" type="text/css" media="screen" href="{{ URL::asset('smartadmin/css/select2/v4.0.0/select2.min.css') }}">
+<link rel="stylesheet" type="text/css" media="screen" href="{{ URL::asset('smartadmin/css/select2/v4.0.0/select2-bootstrap.css') }}">

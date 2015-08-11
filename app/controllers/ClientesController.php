@@ -106,7 +106,17 @@ class ClientesController extends \BaseController {
 
 	public function getProductos($idCliente)
 	{
-		return Producto::where('id_cliente',$idCliente)->orderBy('producto')->lists('producto','id');
+		$productos = Producto::where('id_cliente',$idCliente)->orderBy('producto')->lists('producto','id');
+		$response = [];
+
+		foreach($productos as $id=>$producto){
+			$response[] = [
+				'id'=>$id,
+				'text'=>$producto,
+			];
+		}
+
+		return $response;
 	}
 
 }
