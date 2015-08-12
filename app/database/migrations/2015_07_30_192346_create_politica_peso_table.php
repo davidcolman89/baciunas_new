@@ -17,7 +17,7 @@ class CreatePoliticaPesoTable extends Migration {
 			$table->increments('id');
 			$table->integer('id_politica_precio');
 			$table->integer('cantidad');
-			$table->decimal('cuota', 5, 2);
+			$table->decimal('cuota', 10, 2);
 			$table->timestamps();
 		});
 	}

@@ -10,7 +10,7 @@
     {{ Form::open( ['route' => 'politicasPrecio.store','method' => 'POST','id'=>'frm-politica-precio'],['role' => 'form']) }}
         <div class="form-group">
             {{ Form::label('id_cliente','Selecccionar Cliente:', ['class'=>'control-label col-md-1']) }}
-            <div class="col-md-2">
+            <div class="col-md-4">
                 <div class="row">
                     {{ Form::select('id_cliente', $clientes, ['class'=>'form-control']); }}
                 </div>
@@ -155,6 +155,11 @@
         var selectClientes;
         var selectProductos;
         var selectFrecuencias;
+        var selectOptions = {
+            theme: "bootstrap",
+            width:"style",
+            data:''
+        };
 
         function getPoliticasByCliente(idCliente) {
             var url = 'byCliente/' + idCliente;
@@ -187,18 +192,15 @@
             var urlGetProductos = '../clientes/productos/'+idCliente;
             $.getJSON(urlGetProductos,function(data){
                 selectProductos.not('.select2-container').empty();
-                selectProductos.select2({data:data});
+                selectOptions.data = data;
+                selectProductos.select2(selectOptions);
             });
         }
 
         function initializeSelects2() {
-            var options = {
-                theme: "bootstrap",
-                width:"resolve"
-            };
-            selectProductos = $('#id_producto').select2(options);
-            selectFrecuencias = $('#id_frecuencia').select2(options);
-            selectClientes = $('#id_cliente').select2(options);
+            selectProductos = $('#id_producto').select2(selectOptions);
+            selectFrecuencias = $('#id_frecuencia').select2(selectOptions);
+            selectClientes = $('#id_cliente').select2(selectOptions);
         }
 
         function initializeDataTableProductos() {
@@ -252,18 +254,6 @@
                 "<'dt-toolbar-footer'<'col-xs-6'i><'col-xs-6'p>>"
             });
 
-            $('#dt-productos').on('click', '.btn-politica-ver', function (event) {
-                event.preventDefault();
-                var self = $(this);
-                var url = self.attr('data-id');
-                $.getJSON(url, function (data) {
-                    completarFormPoliticaPrecio(data);
-                    var id = data.id;
-                    $("#frm-politica-precio").attr('action', id);
-                    $("input[name='_method']").val('put');
-                });
-            });
-
             $("#dt-productos thead th input[type=text]").on('keyup change', function () {
                 datatablePoliticas
                         .column($(this).parent().index() + ':visible')
@@ -272,22 +262,38 @@
 
             });
         }
-        $(document).ready(function () {
-            initializeDataTableProductos();
-
+        function initializeInputNumber() {
             $(".spinner-decimal").spinner({
                 step: 0.01,
                 numberFormat: "n",
-                min:0
+                min: 0
             });
-            $(".spinner").spinner({min:0});
+            $(".spinner").spinner({min: 0});
+        }
 
+        $(document).ready(function () {
+            initializeDataTableProductos();
+            initializeInputNumber();
             initializeSelects2();
 
             $("#btn-cargar-politicas").click(function(event){
                 event.preventDefault();
                 getPoliticasByCliente(selectClientes.val());
                 getProductosByCliente(selectClientes.val());
+            });
+
+            $('#dt-productos').on('click', '.btn-politica-ver', function (event) {
+                event.preventDefault();
+                var self = $(this);
+                var url = self.attr('data-id');
+                $.getJSON(url, function (data) {
+                    completarFormPoliticaPrecio(data);
+                    var id = data.id;
+                    console.log(selectProductos.val());
+                    //selectProductos.val(id).trigger('change');
+                    $("#frm-politica-precio").attr('action', id);
+                    $("input[name='_method']").val('put');
+                });
             });
 
         });

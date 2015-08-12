@@ -19,7 +19,7 @@ class CreatePoliticaPrecioTable extends Migration {
 			$table->integer('id_producto');
 			$table->integer('id_frecuencia');
 			$table->integer('cantidad');
-			$table->decimal('cuota', 5, 2);
+			$table->decimal('cuota', 10, 2);
 			$table->boolean('lunes');
 			$table->boolean('martes');
 			$table->boolean('miercoles');
