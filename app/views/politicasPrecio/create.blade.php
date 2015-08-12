@@ -10,13 +10,10 @@
     {{ Form::open( ['route' => 'politicasPrecio.store','method' => 'POST','id'=>'frm-politica-precio'],['role' => 'form']) }}
         <div class="form-group">
             {{ Form::label('id_cliente','Selecccionar Cliente:', ['class'=>'control-label col-md-1']) }}
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="row">
                     {{ Form::select('id_cliente', $clientes, ['class'=>'form-control']); }}
                 </div>
-            </div>
-            <div class="col-md-2">
-                {{ Form::button('Traer Politicas de Precio', ['type'=>'button', 'class'=>'btn btn-primary','id'=>'btn-cargar-politicas']) }}
             </div>
         </div>
         <div class="form-group">
@@ -158,12 +155,13 @@
         var selectOptions = {
             theme: "bootstrap",
             width:"style",
-            data:''
+            data:'',
+            placeholder:''
         };
 
         function getPoliticasByCliente(idCliente) {
             var url = 'byCliente/' + idCliente;
-            datatablePoliticas.ajax.url(url).load();
+            return datatablePoliticas.ajax.url(url);
         }
         function completarFormPoliticaPrecio(data) {
             $.each(data,function(index, value){
@@ -271,15 +269,20 @@
             $(".spinner").spinner({min: 0});
         }
 
+        function getInfoCliente(loadDataTable) {
+            var loadDataTable = loadDataTable || false;
+            var dataTablePoliticas = getPoliticasByCliente(selectClientes.val());
+            if(loadDataTable) dataTablePoliticas.load();
+            getProductosByCliente(selectClientes.val());
+        }
         $(document).ready(function () {
             initializeDataTableProductos();
             initializeInputNumber();
             initializeSelects2();
+            getInfoCliente();
 
-            $("#btn-cargar-politicas").click(function(event){
-                event.preventDefault();
-                getPoliticasByCliente(selectClientes.val());
-                getProductosByCliente(selectClientes.val());
+            selectClientes.change(function(){
+                getInfoCliente(true);
             });
 
             $('#dt-productos').on('click', '.btn-politica-ver', function (event) {
@@ -289,8 +292,7 @@
                 $.getJSON(url, function (data) {
                     completarFormPoliticaPrecio(data);
                     var id = data.id;
-                    console.log(selectProductos.val());
-                    //selectProductos.val(id).trigger('change');
+
                     $("#frm-politica-precio").attr('action', id);
                     $("input[name='_method']").val('put');
                 });
