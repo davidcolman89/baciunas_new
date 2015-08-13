@@ -270,6 +270,8 @@
         }
 
         function getInfoCliente(loadDataTable) {
+            var form = $('#frm-politica-precio').children().not('select');
+            console.log(form);
             var loadDataTable = loadDataTable || false;
             var dataTablePoliticas = getPoliticasByCliente(selectClientes.val());
             if(loadDataTable) dataTablePoliticas.load();
@@ -292,7 +294,6 @@
                 $.getJSON(url, function (data) {
                     completarFormPoliticaPrecio(data);
                     var id = data.id;
-
                     $("#frm-politica-precio").attr('action', id);
                     $("input[name='_method']").val('put');
                 });
