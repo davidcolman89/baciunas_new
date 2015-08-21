@@ -10,7 +10,7 @@ class ProductosController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		return View::make('productos.listado');
 	}
 
 	/**
@@ -21,7 +21,9 @@ class ProductosController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
+		$clientes = Cliente::orderBy('razon_social')->lists('razon_social','id');
+		$tiposProducto = TipoProducto::all()->lists('tipo','id');
+		return View::make('productos.create')->with(compact('clientes','tiposProducto'));
 	}
 
 	/**
@@ -32,7 +34,13 @@ class ProductosController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		$data = Input::all();
+
+		$producto = new Producto();
+		$producto->fill($data);
+		$producto->save();
+
+		return Redirect::route('productos.index');
 	}
 
 	/**
@@ -81,6 +89,16 @@ class ProductosController extends \BaseController {
 	public function destroy($id)
 	{
 		//
+	}
+
+	public function showAll()
+	{
+
+		$politicaPrecio = Producto::with('cliente','tipoProducto')->get()->toArray();
+		return ['data' => $politicaPrecio];
+
+		return $data;
+
 	}
 
 }

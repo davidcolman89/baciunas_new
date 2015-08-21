@@ -25,6 +25,9 @@ Route::group(array('before' => 'auth'), function () {
 	Route::get('servicios/listado', array('as'=>'servicios.listado','uses'=>'ServiciosController@showAll'));
 	Route::resource('servicios', 'ServiciosController');
 
+	Route::get('productos/listado', array('as'=>'productos.listado','uses'=>'ProductosController@showAll'));
+	Route::resource('productos', 'ProductosController');
+
 	Route::get('politicasPrecio/listado', array('as'=>'politicasPrecio.listado','uses'=>'PoliticasPrecioController@showAll'));
 	Route::get('politicasPrecio/byCliente/{idCliente}', array('as'=>'politicasPrecio.by_cliente','uses'=>'PoliticasPrecioController@getPoliticasByCliente'));
 	Route::resource('politicasPrecio', 'PoliticasPrecioController');

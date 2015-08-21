@@ -14,7 +14,7 @@ class ProductosTableSeeder extends Seeder {
 			Producto::create([
 				'id_cliente'=>$faker->numberBetween(1,10),
 				'producto'=>$faker->word,
-				'id_tipo_producto'=>$faker->numberBetween(1,10)
+				'id_tipo_producto'=>$faker->numberBetween(1,4)
 			]);
 		}
 	}

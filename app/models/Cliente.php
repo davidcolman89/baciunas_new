@@ -22,4 +22,9 @@ class Cliente extends \Eloquent {
 		return $this->hasMany('PoliticaPrecio', 'id_cliente', 'id');
 	}
 
+	public function productos()
+	{
+		return $this->hasMany('Producto', 'id_cliente', 'id');
+	}
+
 }
