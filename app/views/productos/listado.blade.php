@@ -33,18 +33,19 @@
                     <thead>
                     <tr>
                         <th class="hasinput" style="">
-                            <input type="text" class="form-control" placeholder="ID Cliente"/>
+                            <input type="text" class="form-control" placeholder="Cliente"/>
                         </th>
                         <th class="hasinput" style="">
-                            <input type="text" class="form-control" placeholder="Razon Social"/>
+                            <input type="text" class="form-control" placeholder="Producto"/>
                         </th>
-                        <th class="hasinput" style=""></th>
+                        <th class="hasinput" style="">
+                            <input type="text" class="form-control" placeholder="Tipo de Producto"/>
+                        </th>
                     </tr>
                     <tr>
                         <th>Razon Social</th>
                         <th>Producto</th>
                         <th>Tipo de Producto</th>
-                        <th></th>
                     </tr>
                     </thead>
                 </table>
@@ -83,14 +84,14 @@
                 "sAjaxSource": "{{URL::route('productos.listado')}}",
                 "aoColumns": [
                     {
-                        "mData": "razon_social",
+                        "mData": "cliente",
                         "mRender": function(data, type, full){
 
                             var sLink, sHref;
 
                             sHref = ' href="clientes/'+ full.id +'/edit"';
 
-                            sLink = (['<a ' + sHref + ' >',full.razon_social,'</a>']).join('');
+                            sLink = (['<a ' + sHref + ' >',data.razon_social,'</a>']).join('');
 
                             return sLink;
 
@@ -101,13 +102,8 @@
                     },
                     {
                         "mData": "tipo_producto",
-                    },
-                    {
-                        "mData": "accion",
                         "mRender": function(data, type, full){
-
-                            return "";
-
+                            return data.tipo;
                         }
                     }
                 ],
