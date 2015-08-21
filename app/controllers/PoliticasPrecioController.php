@@ -2,7 +2,22 @@
 
 class PoliticasPrecioController extends \BaseController {
 
-	/**
+    private $dias;
+
+    public function __construct()
+    {
+        $this->dias = [
+            'lunes',
+            'martes',
+            'miercoles',
+            'jueves',
+            'viernes',
+            'sabado',
+            'domingo'
+        ];
+    }
+
+    /**
 	 * Display a listing of the resource.
 	 * GET /politicasprecio
 	 *
@@ -35,40 +50,13 @@ class PoliticasPrecioController extends \BaseController {
 	 */
 	public function store()
 	{
-        $data = Input::all();
-        $politicasCantidad = $data['politicas_cantidad'];
-        $politicasPeso = $data['politicas_peso'];
+        list($data, $politicasCantidad, $politicasPeso) = $this->prepareData();
 
-        $abono = 0;
-        if(!empty($data['cuota'])) $abono = 1;
-        $data['abono'] = $abono;
+        $idPoliticaPrecio = $this->generatePoliticaDePrecio($data);
 
-        $politicaPrecio = new PoliticaPrecio();
-        $politicaPrecio->fill($data);
-        $politicaPrecio->save();
-        $idPoliticaPrecio = $politicaPrecio->id;
+        $this->generatePoliticasDeCantidad($politicasCantidad, $idPoliticaPrecio);
 
-        foreach($politicasCantidad as $politica)
-        {
-            $politicaCantidad = new PoliticaCantidad();
-            $politicaCantidad->fill([
-                'id_politica_precio'=>$idPoliticaPrecio,
-                'cantidad'=>$politica['cantidad'],
-                'cuota'=>$politica['cuota'],
-            ]);
-            $politicaCantidad->save();
-        }
-
-        foreach($politicasPeso as $politica)
-        {
-            $politicaPeso = new PoliticaPeso();
-            $politicaPeso->fill([
-                'id_politica_precio'=>$idPoliticaPrecio,
-                'cantidad'=>$politica['cantidad'],
-                'cuota'=>$politica['cuota'],
-            ]);
-            $politicaPeso->save();
-        }
+        $this->generatePoliticasDePrecio($politicasPeso, $idPoliticaPrecio);
 
         return Redirect::route('politicasPrecio.create');
 	}
@@ -150,6 +138,74 @@ class PoliticasPrecioController extends \BaseController {
     {
         $politicaPrecio = PoliticaPrecio::with('cliente','producto','frecuencia')->where('id_cliente',$idCliente)->get()->toArray();
         return ['data' => $politicaPrecio];
+    }
+
+    /**
+     * @param $politicasCantidad
+     * @param $idPoliticaPrecio
+     * @return mixed
+     */
+    private function generatePoliticasDeCantidad($politicasCantidad, $idPoliticaPrecio)
+    {
+        foreach ($politicasCantidad as $politica) {
+            $politicaCantidad = new PoliticaCantidad();
+            $politicaCantidad->fill([
+                'id_politica_precio' => $idPoliticaPrecio,
+                'cantidad' => $politica['cantidad'],
+                'cuota' => $politica['cuota'],
+            ]);
+            $politicaCantidad->save();
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param $politicasPeso
+     * @param $idPoliticaPrecio
+     * @return $this
+     */
+    private function generatePoliticasDePrecio($politicasPeso, $idPoliticaPrecio)
+    {
+        foreach ($politicasPeso as $politica) {
+            $politicaPeso = new PoliticaPeso();
+            $politicaPeso->fill([
+                'id_politica_precio' => $idPoliticaPrecio,
+                'cantidad' => $politica['cantidad'],
+                'cuota' => $politica['cuota'],
+            ]);
+            $politicaPeso->save();
+        }
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    private function prepareData()
+    {
+        $data = Input::all();
+        $data['abono'] = (!empty($data['cuota']));
+        $politicasCantidad = $data['politicas_cantidad'];
+        $politicasPeso = $data['politicas_peso'];
+        $diasCargados = $data['dias'];
+
+        foreach ($this->dias as $dia) $data[$dia] = array_key_exists($dia, $diasCargados);
+
+        return array($data, $politicasCantidad, $politicasPeso);
+    }
+
+    /**
+     * @param $data
+     * @return mixed
+     */
+    private function generatePoliticaDePrecio($data)
+    {
+        $politicaPrecio = new PoliticaPrecio();
+        $politicaPrecio->fill($data);
+        $politicaPrecio->save();
+
+        return $politicaPrecio->id;
     }
 
 }

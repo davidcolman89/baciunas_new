@@ -74,7 +74,7 @@
                             <span>Sabado</span>{{ Form::checkbox('dias[sabado]','1', ['class'=>'checkbox style-0']); }}
                         </label>
                         <label class="checkbox-inline">
-                            <span>Domingo</span>{{ Form::checkbox('domingo','1', ['class'=>'checkbox style-0']); }}
+                            <span>Domingo</span>{{ Form::checkbox('dias[domingo]','1', ['class'=>'checkbox style-0']); }}
                         </label>
                     </div>
                 </div>
@@ -270,13 +270,13 @@
         }
 
         function getInfoCliente(loadDataTable) {
-            var form = $('#frm-politica-precio').children().not('select');
-            console.log(form);
+
             var loadDataTable = loadDataTable || false;
             var dataTablePoliticas = getPoliticasByCliente(selectClientes.val());
             if(loadDataTable) dataTablePoliticas.load();
             getProductosByCliente(selectClientes.val());
         }
+
         $(document).ready(function () {
             initializeDataTableProductos();
             initializeInputNumber();
