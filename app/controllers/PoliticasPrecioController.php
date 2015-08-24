@@ -86,9 +86,8 @@ class PoliticasPrecioController extends \BaseController {
 
 	public function update($idPoliticaPrecio)
 	{
-        $data = Input::all();
-        $politicasCantidad = $data['politicas_cantidad'];
-        $politicasPeso = $data['politicas_peso'];
+
+        list($data, $politicasCantidad, $politicasPeso) = $this->prepareData();
 
         $abono = 0;
         if(!empty($data['cuota'])) $abono = 1;
