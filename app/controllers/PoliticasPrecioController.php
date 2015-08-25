@@ -135,7 +135,7 @@ class PoliticasPrecioController extends \BaseController {
 
     public function getPoliticasByCliente($idCliente)
     {
-        $politicaPrecio = PoliticaPrecio::with('cliente','producto','frecuencia')->where('id_cliente',$idCliente)->get()->toArray();
+        $politicaPrecio = PoliticaPrecio::with('cliente','producto','frecuencia','politicasCantidad','politicasPeso')->where('id_cliente',$idCliente)->get()->toArray();
         return ['data' => $politicaPrecio];
     }
 

@@ -27,26 +27,38 @@
                         <input type="text" class="form-control" placeholder="Producto"/>
                     </th>
                     <th class="hasinput" style="">
-                        <input type="text" class="form-control" placeholder="Cliente"/>
-                    </th>
-                    <th class="hasinput" style="">
-                        <input type="text" class="form-control" placeholder="Frecuencia"/>
-                    </th>
-                    <th class="hasinput" style="">
                         <input type="text" class="form-control" placeholder="Cantidad"/>
                     </th>
                     <th class="hasinput" style="">
-                        <input type="text" class="form-control" placeholder="Abono"/>
+                        <input type="text" class="form-control" placeholder="Cuota"/>
+                    </th>
+                    <th class="hasinput" style="">
+                        <input type="text" class="form-control" placeholder="Cantidad Menor"/>
+                    </th>
+                    <th class="hasinput" style="">
+                        <input type="text" class="form-control" placeholder="Precio"/>
+                    </th>
+                    <th class="hasinput" style="">
+                        <input type="text" class="form-control" placeholder="Toneladas Menor"/>
+                    </th>
+                    <th class="hasinput" style="">
+                        <input type="text" class="form-control" placeholder="Precio"/>
+                    </th>
+                    <th class="hasinput" style="">
+                        <input type="text" class="form-control" placeholder="Abono Mensual"/>
                     </th>
                     <th class="hasinput" style="">
                     </th>
                 </tr>
                 <tr>
                     <th>Producto</th>
-                    <th>Cliente</th>
-                    <th>Frecuencia</th>
                     <th>Cantidad</th>
-                    <th>Abono</th>
+                    <th>Cuota</th>
+                    <th>Cantidad Menor</th>
+                    <th>Precio</th>
+                    <th>Toneladas Menor</th>
+                    <th>Precio</th>
+                    <th>Abono Mensual</th>
                     <th></th>
                 </tr>
                 </thead>

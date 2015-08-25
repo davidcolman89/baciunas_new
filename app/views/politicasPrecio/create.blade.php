@@ -8,118 +8,45 @@
 @stop
 @section('contenido')
     {{ Form::open( ['route' => 'politicasPrecio.store','method' => 'POST','id'=>'frm-politica-precio'],['role' => 'form']) }}
-        <div class="form-group">
-            {{ Form::label('id_cliente','Selecccionar Cliente:', ['class'=>'control-label col-md-1']) }}
-            <div class="col-md-6">
-                <div class="row">
-                    {{ Form::select('id_cliente', $clientes, ['class'=>'form-control']); }}
-                </div>
+    <div class="form-group">
+        {{ Form::label('id_cliente','Selecccionar Cliente:', ['class'=>'control-label col-md-1']) }}
+        <div class="col-md-6">
+            <div class="row">
+                {{ Form::select('id_cliente', $clientes, ['class'=>'form-control']); }}
             </div>
         </div>
-        <div class="form-group">
-            <div class="col-md-12"><br></div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-12"></div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-10">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Politica 1</div>
-                    <div class="panel-body form-group">
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                {{ Form::label('id_producto','Producto', ['class'=>'control-label col-md-12']) }}
-                                <div class="col-md-12">
-                                    {{ Form::select('id_producto',[], ['class'=>'form-control']); }}
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                {{ Form::label('id_frecuencia','Frecuencia', ['class'=>'control-label col-md-12']) }}
-                                <div class="col-md-12">
-                                    {{ Form::select('id_frecuencia', $frecuencias, ['class'=>'form-control']); }}
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <label class="checkbox-inline">
-                                        <span>Lunes</span>{{ Form::checkbox('dias[lunes]','1', ['class'=>'checkbox style-0']); }}
-                                    </label>
-                                    <label class="checkbox-inline">
-                                        <span>Martes</span>{{ Form::checkbox('dias[martes]','1', ['class'=>'checkbox style-0']); }}
-                                    </label>
-                                    <label class="checkbox-inline">
-                                        <span>Miercoles</span>{{ Form::checkbox('dias[miercoles]','1', ['class'=>'checkbox style-0']); }}
-                                    </label>
-                                    <label class="checkbox-inline">
-                                        <span>Jueves</span>{{ Form::checkbox('dias[jueves]','1', ['class'=>'checkbox style-0']); }}
-                                    </label>
-                                    <label class="checkbox-inline">
-                                        <span>Viernes</span>{{ Form::checkbox('dias[viernes]','1', ['class'=>'checkbox style-0']); }}
-                                    </label>
-                                    <label class="checkbox-inline">
-                                        <span>Sabado</span>{{ Form::checkbox('dias[sabado]','1', ['class'=>'checkbox style-0']); }}
-                                    </label>
-                                    <label class="checkbox-inline">
-                                        <span>Domingo</span>{{ Form::checkbox('dias[domingo]','1', ['class'=>'checkbox style-0']); }}
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-10">
-                            <div class="form-group">
-                                {{ Form::label('cantidad','Cantidad', ['class'=>'control-label col-md-1']) }}
-                                <div class="col-md-2">{{ Form::text('cantidad','', ['class'=>'form-control spinner']); }}</div>
-                                {{ Form::label('cuota','Cuota Mensual', ['class'=>'control-label col-md-1']) }}
-                                <div class="col-md-2">{{ Form::text('cuota','', ['class'=>'form-control spinner-decimal']); }}</div>
-                            </div>
-                            <div class="form-group"><div class="col-md-12"><br></div></div>
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <div class="row form-group">
-                                        {{ Form::label('politicas_cantidad[0][cantidad]','Cantidad menor a', ['class'=>'control-label col-md-1']) }}
-                                        <div class="col-md-2">{{ Form::text('politicas_cantidad[0][cantidad]','', ['class'=>'form-control spinner']); }}</div>
-                                        {{ Form::label('politicas_cantidad[0][cuota]','El precio es igual a', ['class'=>'control-label col-md-1']) }}
-                                        <div class="col-md-2">{{ Form::text('politicas_cantidad[0][cuota]','', ['class'=>'form-control spinner-decimal']); }}</div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="row form-group">
-                                        {{ Form::label('politicas_peso[0][cantidad]','Toneladas Menor a', ['class'=>'control-label col-md-1']) }}
-                                        <div class="col-md-2">{{ Form::text('politicas_peso[0][cantidad]','', ['class'=>'form-control spinner']); }}</div>
-                                        {{ Form::label('politicas_peso[0][cuota]','El precio es igual a', ['class'=>'control-label col-md-1']) }}
-                                        <div class="col-md-2">{{ Form::text('politicas_peso[0][cuota]','', ['class'=>'form-control spinner-decimal']); }}</div>
-                                    </div>
-                                    <div class="row form-group">
-                                        <div class="col-md-12">
-                                            {{ Form::button('Historico', ['class'=>'btn btn-default']) }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="form-group"><div class="col-md-12"><br></div></div>
-        <div class="form-group">
-
-        </div>
-        <div class="form-group">
-            <div class="col-md-12">
-                {{ Form::hidden('_method','post') }}
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-2">
-                {{ Form::button('Agregar Producto', ['class'=>'btn btn-primary','id'=>'btn-agregar-producto']) }}
-            </div>
-            <div class="col-md-2">
-                {{ Form::button('Confirmar', ['type'=>'submit', 'class'=>'btn btn-danger','id'=>'btn-guardar']) }}
-            </div>
-        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-12"><br></div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-12">@include('politicasPrecio.partials.productos')</div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-4">Producto</div>
+        <div class="col-md-1">Cantidad</div>
+        <div class="col-md-1">Cuota Mensual</div>
+        <div class="col-md-1">Cantidad Menor a</div>
+        <div class="col-md-1">Presio</div>
+        <div class="col-md-1">Toneladas Menor a</div>
+        <div class="col-md-1">Precio</div>
+    </div>
+    <div class="form-group"><div class="col-md-12"><br></div></div>
+    <div class="form-group">
+        <div class="col-md-4">{{ Form::select('id_producto',[], '',['class'=>'form-control','id'=>'id_producto']); }}</div>
+        <div class="col-md-1">{{ Form::text('cantidad','', ['class'=>'form-control spinner']); }}</div>
+        <div class="col-md-1">{{ Form::text('cuota','', ['class'=>'form-control spinner-decimal']); }}</div>
+        <div class="col-md-1">{{ Form::text('cantidad_menor','', ['class'=>'form-control spinner']); }}</div>
+        <div class="col-md-1">{{ Form::text('cantidad_menor_precio','', ['class'=>'form-control spinner-decimal']); }}</div>
+        <div class="col-md-1">{{ Form::text('tonelada_menor','', ['class'=>'form-control spinner']); }}</div>
+        <div class="col-md-1">{{ Form::text('tonelada_menor_precio','', ['class'=>'form-control spinner-decimal']); }}</div>
+    </div>
+    <div class="form-group"><div class="col-md-12"><br></div></div>
+    <div class="form-group">
+        <div class="col-md-1">{{ Form::button('Historico', ['class'=>'btn btn-default']) }}</div>
+        <div class="col-md-1">{{ Form::button('Confirmar', ['type'=>'submit', 'class'=>'btn btn-danger','id'=>'btn-guardar']) }}</div>
+        <div class="col-md-1">{{ Form::hidden('_method','post') }}</div>
+    </div>
     {{ Form::close() }}
 @stop
 @section('js')
@@ -145,12 +72,7 @@
                     var dias = $.inArray( index, ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"]);
                     if(dias>=0){//Checkboxs
                         var boolean = (parseInt(value)===0) ? false : true;
-                        var chkbxDias = $('input[name="dias[' + index + ']"]');
-                        if(boolean){
-                            chkbxDias.prop('checked', true);
-                        }else{
-                            chkbxDias.prop('checked', false);
-                        }
+                        $('input[name="'+index+'"]').prop('checked', boolean);
                     }else{
                         if(index==='id_producto' || index==='id_frecuencia'){//Select2
                             $('#'+index).val(value).trigger("change");
@@ -194,19 +116,22 @@
                         }
                     },
                     {
-                        "mData": "cliente",
-                        "mRender": function (data, type, full) {
-                            return data.razon_social;
-                        }
+                        "mData": "cantidad",
                     },
                     {
-                        "mData": "frecuencia",
-                        "mRender": function (data, type, full) {
-                            return data.frecuencia;
-                        }
+                        "mData": "cuota",
                     },
                     {
-                        "mData": "cantidad"
+                        "mData": "cantidad_menor",
+                    },
+                    {
+                        "mData": "cantidad_menor_precio",
+                    },
+                    {
+                        "mData": "tonelada_menor"
+                    },
+                    {
+                        "mData": "tonelada_menor_precio"
                     },
                     {
                         "mData": "abono"
@@ -251,13 +176,13 @@
         }
 
         function getInfoCliente(loadDataTable) {
-
+            var form = $('#frm-politica-precio').children().not('select');
+            console.log(form);
             var loadDataTable = loadDataTable || false;
             var dataTablePoliticas = getPoliticasByCliente(selectClientes.val());
             if(loadDataTable) dataTablePoliticas.load();
             getProductosByCliente(selectClientes.val());
         }
-
         $(document).ready(function () {
             initializeDataTableProductos();
             initializeInputNumber();
@@ -273,8 +198,8 @@
                 var self = $(this);
                 var url = self.attr('data-id');
                 $.getJSON(url, function (data) {
-                    var id = data.id;
                     completarFormPoliticaPrecio(data);
+                    var id = data.id;
                     $("#frm-politica-precio").attr('action', id);
                     $("input[name='_method']").val('put');
                 });
