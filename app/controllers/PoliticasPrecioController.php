@@ -3,6 +3,7 @@
 class PoliticasPrecioController extends \BaseController {
 
     private $dias;
+    private $messagesError = [];
 
     public function __construct()
     {
@@ -50,15 +51,14 @@ class PoliticasPrecioController extends \BaseController {
 	 */
 	public function store()
 	{
-        list($data, $politicasCantidad, $politicasPeso) = $this->prepareData();
+        $data = $this->prepareData();
 
-        $idPoliticaPrecio = $this->generatePoliticaDePrecio($data);
-
-        $this->generatePoliticasDeCantidad($politicasCantidad, $idPoliticaPrecio);
-
-        $this->generatePoliticasDePrecio($politicasPeso, $idPoliticaPrecio);
-
-        return Redirect::route('politicasPrecio.create');
+        if($this->validateData($data)){
+            $this->generatePoliticaDePrecio($data);
+            return Redirect::route('politicasPrecio.create');
+        }else{
+            return Redirect::back()->with('messagesError', $this->messagesError);
+        }
 	}
 
 	/**
@@ -135,7 +135,7 @@ class PoliticasPrecioController extends \BaseController {
 
     public function getPoliticasByCliente($idCliente)
     {
-        $politicaPrecio = PoliticaPrecio::with('cliente','producto','frecuencia','politicasCantidad','politicasPeso')->where('id_cliente',$idCliente)->get()->toArray();
+        $politicaPrecio = PoliticaPrecio::with('cliente','producto')->where('id_cliente',$idCliente)->get()->toArray();
         return ['data' => $politicaPrecio];
     }
 
@@ -184,14 +184,7 @@ class PoliticasPrecioController extends \BaseController {
     private function prepareData()
     {
         $data = Input::all();
-        $data['abono'] = (!empty($data['cuota']));
-        $politicasCantidad = $data['politicas_cantidad'];
-        $politicasPeso = $data['politicas_peso'];
-        $diasCargados = $data['dias'];
-
-        foreach ($this->dias as $dia) $data[$dia] = array_key_exists($dia, $diasCargados);
-
-        return array($data, $politicasCantidad, $politicasPeso);
+        return $data;
     }
 
     /**
@@ -205,6 +198,28 @@ class PoliticasPrecioController extends \BaseController {
         $politicaPrecio->save();
 
         return $politicaPrecio->id;
+    }
+
+    private function validateData($data)
+    {
+        $idCliente = $data['id_cliente'];
+        return $this->validateUniqueAbonoMensual($idCliente);
+    }
+
+    private function validateUniqueAbonoMensual($idCliente)
+    {
+        $response = true;
+        $politicas = PoliticaPrecio::where('id_cliente',$idCliente)->get();
+        foreach($politicas as $politica)
+        {
+            if((bool)$politica->abono === true) {
+                $response = false;
+            }
+        }
+
+        if(!$response) array_push($this->messagesError,'Ya existe una politica con abono mensual');
+
+        return $response;
     }
 
 }

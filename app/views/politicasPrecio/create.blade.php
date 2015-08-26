@@ -23,28 +23,46 @@
         <div class="col-md-12">@include('politicasPrecio.partials.productos')</div>
     </div>
     <div class="form-group">
-        <div class="col-md-4">Producto</div>
+        <div class="col-md-3">Producto</div>
         <div class="col-md-1">Cantidad</div>
         <div class="col-md-1">Cuota Mensual</div>
         <div class="col-md-1">Cantidad Menor a</div>
-        <div class="col-md-1">Presio</div>
+        <div class="col-md-1">Precio</div>
         <div class="col-md-1">Toneladas Menor a</div>
         <div class="col-md-1">Precio</div>
+        <div class="col-md-1">Abono Mensual</div>
     </div>
     <div class="form-group"><div class="col-md-12"><br></div></div>
     <div class="form-group">
-        <div class="col-md-4">{{ Form::select('id_producto',[], '',['class'=>'form-control','id'=>'id_producto']); }}</div>
-        <div class="col-md-1">{{ Form::text('cantidad','', ['class'=>'form-control spinner']); }}</div>
-        <div class="col-md-1">{{ Form::text('cuota','', ['class'=>'form-control spinner-decimal']); }}</div>
-        <div class="col-md-1">{{ Form::text('cantidad_menor','', ['class'=>'form-control spinner']); }}</div>
-        <div class="col-md-1">{{ Form::text('cantidad_menor_precio','', ['class'=>'form-control spinner-decimal']); }}</div>
-        <div class="col-md-1">{{ Form::text('tonelada_menor','', ['class'=>'form-control spinner']); }}</div>
-        <div class="col-md-1">{{ Form::text('tonelada_menor_precio','', ['class'=>'form-control spinner-decimal']); }}</div>
+        <div class="col-md-3">{{ Form::select('id_producto',[], '',['class'=>'form-control','id'=>'id_producto']); }}</div>
+        <div class="col-md-1">{{ Form::text('cantidad_fija','', ['class'=>'form-control spinner']); }}</div>
+        <div class="col-md-1">{{ Form::text('cuota_mensual','', ['class'=>'form-control spinner-decimal']); }}</div>
+        <div class="col-md-1">{{ Form::text('cantidad_menor_a','', ['class'=>'form-control spinner']); }}</div>
+        <div class="col-md-1">{{ Form::text('cantidad_menor_a_precio','', ['class'=>'form-control spinner-decimal']); }}</div>
+        <div class="col-md-1">{{ Form::text('tonelada_menor_a','', ['class'=>'form-control spinner']); }}</div>
+        <div class="col-md-1">{{ Form::text('tonelada_menor_a_precio','', ['class'=>'form-control spinner-decimal']); }}</div>
+        <div class="col-md-1">{{ Form::checkbox('abono','1', ['class'=>'form-control']); }}</div>
     </div>
+    <div class="form-group"><div class="col-md-12"><br></div></div>
+    @if (Session::has('messagesError'))
+        <div class="form-group">
+            <div class="col-md-12">
+                <div class="alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>Por favor corrige los siguentes errores:</strong>
+                    <ul style="list-style: none">
+                        @foreach(Session::get('messagesError') as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
+    @endif
     <div class="form-group"><div class="col-md-12"><br></div></div>
     <div class="form-group">
         <div class="col-md-1">{{ Form::button('Historico', ['class'=>'btn btn-default']) }}</div>
-        <div class="col-md-1">{{ Form::button('Confirmar', ['type'=>'submit', 'class'=>'btn btn-danger','id'=>'btn-guardar']) }}</div>
+        <div class="col-md-1">{{ Form::button('Añadir Politica', ['type'=>'submit', 'class'=>'btn btn-primary','id'=>'btn-guardar']) }}</div>
         <div class="col-md-1">{{ Form::hidden('_method','post') }}</div>
     </div>
     {{ Form::close() }}
@@ -116,22 +134,22 @@
                         }
                     },
                     {
-                        "mData": "cantidad",
+                        "mData": "cantidad_fija",
                     },
                     {
-                        "mData": "cuota",
+                        "mData": "cuota_mensual",
                     },
                     {
-                        "mData": "cantidad_menor",
+                        "mData": "cantidad_menor_a",
                     },
                     {
-                        "mData": "cantidad_menor_precio",
+                        "mData": "cantidad_menor_a_precio",
                     },
                     {
-                        "mData": "tonelada_menor"
+                        "mData": "tonelada_menor_a"
                     },
                     {
-                        "mData": "tonelada_menor_precio"
+                        "mData": "tonelada_menor_a_precio"
                     },
                     {
                         "mData": "abono"

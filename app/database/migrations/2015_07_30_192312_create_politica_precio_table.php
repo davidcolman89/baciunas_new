@@ -18,8 +18,12 @@ class CreatePoliticaPrecioTable extends Migration {
 			$table->integer('id_cliente');
 			$table->integer('id_producto');
 			$table->integer('id_frecuencia');
-			$table->integer('cantidad');
-			$table->decimal('cuota', 10, 2);
+			$table->integer('cantidad_fija');
+			$table->decimal('cuota_mensual', 10, 2);
+			$table->integer('cantidad_menor_a');
+			$table->decimal('cantidad_menor_a_precio', 10, 2);
+			$table->integer('tonelada_menor_a');
+			$table->decimal('tonelada_menor_a_precio', 10, 2);
 			$table->boolean('lunes');
 			$table->boolean('martes');
 			$table->boolean('miercoles');
