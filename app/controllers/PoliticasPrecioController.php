@@ -226,4 +226,11 @@ class PoliticasPrecioController extends \BaseController {
         return false;
     }
 
+    public function getProductosByCliente($idCliente)
+    {
+        $productos = Cliente::with('politicasPrecio.producto')->find(2);
+        $productos = Producto::with('politicasPrecio')->get();
+        return $productos;
+    }
+
 }

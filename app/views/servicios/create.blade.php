@@ -99,24 +99,59 @@
                 <div class="form-group"><div class="col-md-12"><br></div></div>
                 <div class="form-group">
                     <div class="col-md-12">
-                        {{ Form::button(isset($buttonText)?$buttonText:'Guardar', ['type'=>'submit','class'=>'btn btn-primary']) }}
+                        {{ Form::button('Guardar', ['type'=>'submit','class'=>'btn btn-primary']) }}
                     </div>
                 </div>
+            </div>
+            <div class="col-md-6">
+
             </div>
         </div>
     {{ Form::close() }}
 @stop
 @section('js')
     <script type="text/javascript">
-        $(document).ready(function () {
+        var selectClientes;
+        var selectProductos;
+        var selectEstado;
+        var selectOptions = {
+            theme: "bootstrap",
+            width:"style",
+            data:'',
+            placeholder:''
+        };
 
+        function initializeSelects2() {
+            selectProductos = $('#id_producto').select2(selectOptions);
+            selectClientes = $('#id_cliente').select2(selectOptions);
+            selectEstado = $('#id_estado').select2(selectOptions);
+        }
+
+        function initializeFechas() {
             $("#fecha_servicio").datepicker({
                 dateFormat: 'yy-mm-dd'
             });
             $("#fecha_factura").datepicker({
                 dateFormat: 'yy-mm-dd'
             });
-            //$("#id_estado, #id_producto, #id_cliente").select2({containerCssClass:'col-md-12',});
+        }
+
+        function getProductosByCliente(idCliente) {
+            var urlGetProductos = '../politicasPrecio/getProductosByCliente/'+idCliente;
+            $.getJSON(urlGetProductos,function(data){
+                selectProductos.not('.select2-container').empty();
+                selectOptions.data = data;
+                selectProductos.select2(selectOptions);
+            });
+        }
+
+        $(document).ready(function () {
+            initializeFechas();
+            initializeSelects2();
+
+            selectClientes.change(function(){
+
+            });
 
         });
     </script>
