@@ -52,7 +52,6 @@ class PoliticasPrecioController extends \BaseController {
 	public function store()
 	{
         $data = $this->prepareData();
-
         if($this->validateData($data)){
             $this->generatePoliticaDePrecio($data);
             return Redirect::route('politicasPrecio.create');
@@ -202,24 +201,29 @@ class PoliticasPrecioController extends \BaseController {
 
     private function validateData($data)
     {
-        $idCliente = $data['id_cliente'];
-        return $this->validateUniqueAbonoMensual($idCliente);
+        return $this->validateUniqueAbonoMensual($data);
     }
 
-    private function validateUniqueAbonoMensual($idCliente)
+    private function validateUniqueAbonoMensual($data)
     {
-        $response = true;
-        $politicas = PoliticaPrecio::where('id_cliente',$idCliente)->get();
-        foreach($politicas as $politica)
-        {
-            if((bool)$politica->abono === true) {
-                $response = false;
-            }
+        $idCliente = $data['id_cliente'];
+        $existeAbono = $this->chequearAbonoExistente($idCliente);
+        $abono = false;
+        if(isset($data['abono'])) $abono = (bool)$data['abono'];
+
+        if($abono && $existeAbono){
+            array_push($this->messagesError,'Ya existe una politica con abono mensual');
+            return false;
         }
 
-        if(!$response) array_push($this->messagesError,'Ya existe una politica con abono mensual');
+        return true;
+    }
 
-        return $response;
+    private function chequearAbonoExistente($idCliente)
+    {
+        $politicas = PoliticaPrecio::where('id_cliente',$idCliente)->get();
+        foreach($politicas as $politica) if((bool)$politica->abono === true) return true;
+        return false;
     }
 
 }

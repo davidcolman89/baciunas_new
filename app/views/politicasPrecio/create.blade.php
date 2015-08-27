@@ -152,7 +152,11 @@
                         "mData": "tonelada_menor_a_precio"
                     },
                     {
-                        "mData": "abono"
+                        "mData": "abono",
+                        "mRender": function (data, type, full) {
+                            var response = (parseInt(data) === 1) ? 'SI' : 'NO';
+                            return response;
+                        }
                     },
                     {
                         "mData": "acciones",
@@ -194,8 +198,7 @@
         }
 
         function getInfoCliente(loadDataTable) {
-            var form = $('#frm-politica-precio').children().not('select');
-            console.log(form);
+
             var loadDataTable = loadDataTable || false;
             var dataTablePoliticas = getPoliticasByCliente(selectClientes.val());
             if(loadDataTable) dataTablePoliticas.load();
