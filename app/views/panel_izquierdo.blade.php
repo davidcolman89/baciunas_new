@@ -37,10 +37,9 @@
             <ul>
                 <li><a href="{{ URL::route('clientes.index') }}">Clientes</a></li>
                 <li><a href="{{ URL::route('productos.index') }}">Productos</a></li>
-                <li><a href="#">Tipos de Productos</a></li>
                 <li><a href="{{ URL::route('ctasCtesCli.index') }}">Cuentas Corrientes</a></li>
-                <li><a href="{{ URL::route('servicios.index') }}">Servicios</a></li>
                 <li><a href="{{ URL::route('politicasPrecio.index') }}">Politicas de Precio</a></li>
+                <li><a href="{{ URL::route('servicios.index') }}">Servicios</a></li>
             </ul>
         </li>
         <li>
@@ -49,9 +48,8 @@
             <ul>
                 <li><a href="{{ URL::route('clientes.create') }}">Clientes</a></li>
                 <li><a href="{{ URL::route('productos.create') }}">Productos</a></li>
-                <li><a href="#">Tipos de Productos</a></li>
-                <li><a href="{{ URL::route('servicios.create') }}">Servicios</a></li>
                 <li><a href="{{ URL::route('politicasPrecio.create') }}">Politicas de Precio</a></li>
+                <li><a href="{{ URL::route('servicios.create') }}">Servicios</a></li>
             </ul>
         </li>
     </ul>

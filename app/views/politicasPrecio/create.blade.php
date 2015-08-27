@@ -11,9 +11,7 @@
     <div class="form-group">
         {{ Form::label('id_cliente','Selecccionar Cliente:', ['class'=>'control-label col-md-1']) }}
         <div class="col-md-6">
-            <div class="row">
-                {{ Form::select('id_cliente', $clientes, ['class'=>'form-control']); }}
-            </div>
+            {{ Form::select('id_cliente', $clientes, '', ['class'=>'form-control']); }}
         </div>
     </div>
     <div class="form-group">

@@ -21,27 +21,13 @@ class ServiciosController extends \BaseController {
 	 */
 	public function create()
 	{
-		$comboClientes = [];
-		$clientes = Cliente::get(['id','razon_social'])->toArray();
-		foreach($clientes as $cliente) {
-			$comboClientes+=[
-				$cliente['id']=>$cliente['razon_social']
-			];
-		}
-
-		$politicas = PoliticaPrecio::with('producto')
-			->where('id_cliente',8)
-			->groupBy('id_producto')
-			->get(['id_producto'])
-			->lists('producto','id_producto');
-
-		$productos = [];
-		foreach($politicas as $idPolitica=>$producto) $productos[$idPolitica] = $producto->producto;
-
-		return View::make('servicios.create')->with([
-			'comboClientes'=>$comboClientes,
-			'productos'=>$productos,
-		]);
+		$clientes = Cliente::orderBy('razon_social')->lists('razon_social','id');
+		$estados = [
+			1=>'estado 1',
+			2=>'estado 2',
+			3=>'estado 3',
+		];
+		return View::make('servicios.create')->with(compact('clientes','estados'));
 	}
 
 	/**

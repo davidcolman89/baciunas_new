@@ -39,7 +39,7 @@ class PoliticasPrecioController extends \BaseController {
 	public function create()
 	{
         $clientes = Cliente::orderBy('razon_social')->lists('razon_social','id');
-        $frecuencias = PoliticaPrecioFrecuencias::orderBy('frecuencia')->lists('frecuencia','id');
+        #$frecuencias = PoliticaPrecioFrecuencias::orderBy('frecuencia')->lists('frecuencia','id');
         return View::make('politicasPrecio.create')->with(compact('clientes','frecuencias'));
 	}
 
@@ -56,7 +56,7 @@ class PoliticasPrecioController extends \BaseController {
             $this->generatePoliticaDePrecio($data);
             return Redirect::route('politicasPrecio.create');
         }else{
-            return Redirect::back()->with('messagesError', $this->messagesError);
+            return Redirect::back()->with('messagesError', $this->messagesError)->withInput();
         }
 	}
 
