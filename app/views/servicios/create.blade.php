@@ -12,7 +12,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     {{ Form::label('id_cliente','Selecccionar Cliente:', ['class'=>'control-label col-md-2']) }}
-                    <div class="col-md-6">
+                    <div class="col-md-10">
                         {{ Form::select('id_cliente', $clientes, '',['class'=>'form-control']); }}
                     </div>
                 </div>
@@ -22,7 +22,7 @@
                 <div class="form-group">
                     {{ Form::label('fecha_servicio','Fecha', ['class'=>'control-label col-md-2']) }}
                     <div class="col-md-4">
-                        {{ Form::text('fecha_servicio','',['class'=>'form-control']) }}
+                        {{ Form::text('fecha_servicio','',['class'=>'form-control date']) }}
                     </div>
                     {{ Form::label('id_producto','Producto', ['class'=>'control-label col-md-2']) }}
                     <div class="col-md-4">
@@ -33,7 +33,7 @@
                 <div class="form-group">
                     {{ Form::label('contenedores','Cantidad Contenedores', ['class'=>'control-label col-md-2']) }}
                     <div class="col-md-4">
-                        {{ Form::text('contenedores',null,['class'=>'form-control']) }}
+                        {{ Form::text('contenedores',null,['class'=>'form-control only_numbers']) }}
                     </div>
                     {{ Form::label('kilos','Cantidad de Kilos', ['class'=>'control-label col-md-2']) }}
                     <div class="col-md-4">
@@ -70,7 +70,7 @@
                     </div>
                     {{ Form::label('fecha_factura','Fecha Factura', ['class'=>'control-label col-md-2']) }}
                     <div class="col-md-4">
-                        {{ Form::text('fecha_factura',null,['class'=>'form-control']) }}
+                        {{ Form::text('fecha_factura',null,['class'=>'form-control date']) }}
                     </div>
                 </div>
                 <div class="form-group"><div class="col-md-12"><br></div></div>
@@ -104,7 +104,17 @@
                 </div>
             </div>
             <div class="col-md-6">
-
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @if ($errors->has())
+                            <div class="alert alert-danger">
+                                @foreach ($errors->all() as $error)
+                                    {{ $error }}<br>
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
+                </div>
             </div>
         </div>
     {{ Form::close() }}
@@ -140,18 +150,28 @@
             var urlGetProductos = '../politicasPrecio/getProductosByCliente/'+idCliente;
             $.getJSON(urlGetProductos,function(data){
                 selectProductos.not('.select2-container').empty();
+                console.log(data);
                 selectOptions.data = data;
                 selectProductos.select2(selectOptions);
             });
         }
 
+        function initializeMaskInputs() {
+            $(".only_numbers").mask("9");
+            $(".date").mask("9999-99-99");
+
+        }
         $(document).ready(function () {
             initializeFechas();
             initializeSelects2();
+            initializeMaskInputs();
 
             selectClientes.change(function(){
-
+                var idCliente = $(this).val();
+                getProductosByCliente(idCliente);
             });
+
+            selectClientes.change();
 
         });
     </script>

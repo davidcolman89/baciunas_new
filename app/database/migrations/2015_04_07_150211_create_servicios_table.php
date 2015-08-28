@@ -25,7 +25,7 @@ class CreateServiciosTable extends Migration {
 			$table->integer('kilos');
 			$table->text('direccion');
 			$table->text('observaciones');
-			$table->integer('muestra_observaciones');
+			$table->boolean('muestra_observaciones');
 			$table->string('numero_manifiesto');
 			$table->string('numero_cr');
 			$table->integer('numero_factura');

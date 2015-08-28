@@ -31,7 +31,7 @@ Route::group(array('before' => 'auth'), function () {
 	Route::get('politicasPrecio/listado', array('as'=>'politicasPrecio.listado','uses'=>'PoliticasPrecioController@showAll'));
 	Route::get('politicasPrecio/byCliente/{idCliente}', array('as'=>'politicasPrecio.by_cliente','uses'=>'PoliticasPrecioController@getPoliticasByCliente'));
 	Route::get('politicasPrecio/addPoliticaForm/{i}', array('as'=>'politicasPrecio.addPoliticaForm','uses'=>'PoliticasPrecioController@addPoliticaForm'));
-	Route::get('politicasPrecio/getProductoByCliente/{idCliente}', array('as'=>'politicasPrecio.getProductoByCliente','uses'=>'PoliticasPrecioController@getProductosByCliente'));
+	Route::get('politicasPrecio/getProductosByCliente/{idCliente}', array('as'=>'politicasPrecio.getProductoByCliente','uses'=>'PoliticasPrecioController@getProductosByCliente'));
 	Route::resource('politicasPrecio', 'PoliticasPrecioController');
 
 

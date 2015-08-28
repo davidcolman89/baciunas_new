@@ -228,9 +228,20 @@ class PoliticasPrecioController extends \BaseController {
 
     public function getProductosByCliente($idCliente)
     {
-        $productos = Cliente::with('politicasPrecio.producto')->find(2);
-        $productos = Producto::with('politicasPrecio')->get();
-        return $productos;
+        $response = [];
+        $idsProductos = PoliticaPrecio::where('id_cliente',$idCliente)
+            ->groupBy('id_producto')
+            ->lists('id_producto');
+        $productos = Producto::find($idsProductos)->lists('producto','id');;
+
+        foreach($productos as $id=>$producto){
+            $response[] = [
+                'id'=>$id,
+                'text'=>$producto,
+            ];
+        }
+
+        return $response;
     }
 
 }
