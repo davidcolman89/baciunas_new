@@ -33,11 +33,11 @@
                 <div class="form-group">
                     {{ Form::label('contenedores','Cantidad Contenedores', ['class'=>'control-label col-md-2']) }}
                     <div class="col-md-4">
-                        {{ Form::text('contenedores',null,['class'=>'form-control only_numbers']) }}
+                        {{ Form::text('contenedores',null,['class'=>'form-control numeric']) }}
                     </div>
                     {{ Form::label('kilos','Cantidad de Kilos', ['class'=>'control-label col-md-2']) }}
                     <div class="col-md-4">
-                        {{ Form::text('kilos',null,['class'=>'form-control']) }}
+                        {{ Form::text('kilos',null,['class'=>'form-control numeric']) }}
                     </div>
                 </div>
                 <div class="form-group"><div class="col-md-12"><br></div></div>
@@ -161,6 +161,11 @@
             $(".date").mask("9999-99-99");
 
         }
+
+        function numeric(node){
+            return node.val(node.val().replace(/[^ 0-9 ]/g,'') );
+        }
+
         $(document).ready(function () {
             initializeFechas();
             initializeSelects2();
@@ -169,6 +174,10 @@
             selectClientes.change(function(){
                 var idCliente = $(this).val();
                 getProductosByCliente(idCliente);
+            });
+
+            $('.numeric').bind('keyup blur',function(){
+                return numeric($(this));
             });
 
             selectClientes.change();

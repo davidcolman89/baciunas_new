@@ -42,13 +42,12 @@ class ServiciosController extends \BaseController {
 
 	public function store()
 	{
-		$validator = Validator::make(Input::all(), $this->rules, $this->messages);
+		$data = Input::all();
+		$validator = Validator::make($data, $this->rules, $this->messages);
 
 		if($validator->fails()){
 			$messages = $validator->messages();
-
-			return Redirect::back()
-				->withErrors($validator);
+			return Redirect::back()->withErrors($validator)->withInput();
 		}else{
 			$servicio = new Servicio();
 			$servicio->fill($data);
